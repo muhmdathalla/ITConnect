@@ -24,190 +24,188 @@
     </script>
     
     <!-- CUSTOM LIQUID GLASS & THEME CSS -->
-    <style type="text/tailwindcss">
-        @layer utilities {
-          .gradient-text { @apply text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500; }
-        }
-
-        @layer components {
-          /* Navigation */
-          .nav-container { @apply max-w-6xl mx-auto px-4 h-16 flex items-center justify-between w-full; }
-          .nav-logo { @apply flex items-center gap-2 font-bold text-lg text-white tracking-tight transition-all; }
-          .nav-link { @apply px-3 py-2 text-sm font-medium text-slate-400 transition-all rounded-xl; }
-          
-          /* Form Elements */
-          .form-group { @apply flex flex-col gap-2; }
-          .form-label { @apply text-xs font-bold uppercase tracking-wider text-slate-400; }
-          .input-icon-wrapper { @apply relative flex items-center; }
-          .input-icon { @apply absolute left-4 w-5 h-5 text-slate-500 transition-all; }
-          
-          /* Badges & Tags */
-          .skill-tag { @apply px-3 py-1 bg-white/5 border border-white/10 rounded-xl text-xs text-slate-300 backdrop-blur-md transition-all; }
-          .notif-badge { @apply absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-lg shadow-red-500/50; }
-        }
-
+    <style>
         /* =========================================
-           LIQUID GLASSMORPHISM (iOS 26.5 VIBES)
+           CORE RESETS & Z-INDEX FIXED
            ========================================= */
-        
-        /* Z-INDEX FIX UNTUK OVERLAP NAVBAR & DROPDOWN */
         nav#navbar { z-index: 99999 !important; }
         .dropdown-menu { z-index: 100000 !important; }
 
-        /* Dark Mode (Default) Liquid Glass */
-        .glass-card, .glass-nav, .dropdown-menu {
-          background: rgba(15, 23, 42, 0.35) !important;
-          backdrop-filter: blur(32px) saturate(200%) !important;
-          -webkit-backdrop-filter: blur(32px) saturate(200%) !important;
-          border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
-          border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
-          border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-          box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5) !important;
-          transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-        }
-
-        .glass-card:hover {
-          background: rgba(30, 41, 59, 0.45) !important;
-          border-top: 1px solid rgba(6, 182, 212, 0.4) !important;
-          border-left: 1px solid rgba(6, 182, 212, 0.2) !important;
-          transform: translateY(-4px) scale(1.005);
-          box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.15) !important;
-        }
-
-        .dropdown-item {
-          @apply flex items-center gap-3 px-4 py-3 text-sm transition-all w-full text-left cursor-pointer;
-          color: #cbd5e1 !important;
-          border-radius: 12px;
-          margin: 2px 4px;
-          width: calc(100% - 8px) !important;
-        }
-        .dropdown-item:hover {
-          background: rgba(255, 255, 255, 0.1) !important;
-          color: white !important;
-          transform: translateX(4px);
-        }
-
-        /* Inputs */
-        .form-input {
-          @apply w-full rounded-2xl px-4 py-3.5 text-sm transition-all;
-          background: rgba(0, 0, 0, 0.2) !important;
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          color: white !important;
-        }
-        .form-input:focus {
-          background: rgba(0, 0, 0, 0.4) !important;
-          border-color: #06b6d4 !important;
-          box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15) !important;
-          outline: none;
-        }
-
-        /* Buttons */
-        .btn-primary {
-          @apply text-white shadow-xl flex items-center justify-center transition-all overflow-hidden relative;
-          background: linear-gradient(135deg, rgba(6, 182, 212, 0.8), rgba(37, 99, 235, 0.8)) !important;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .btn-primary:hover {
-          background: linear-gradient(135deg, rgba(6, 182, 212, 1), rgba(37, 99, 235, 1)) !important;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px -5px rgba(6, 182, 212, 0.4) !important;
-        }
-
-        /* Background Animated Grid */
-        .hero-grid {
-          position: fixed; inset: 0; z-index: -1;
-          background-image: 
-            linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-          animation: gridPan 30s linear infinite;
-        }
-        @keyframes gridPan {
-          from { transform: translateY(0); }
-          to { transform: translateY(50px); }
+        .gradient-text {
+            background: linear-gradient(135deg, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* =========================================
-           LIGHT MODE (DYNAMIC OVERRIDES)
+           THEME 1: PURE DARK MODE (DEFAULT)
+           ========================================= */
+        body {
+            background-color: #000000 !important; /* Hitam Pekat */
+            color: #ffffff !important; /* Font Putih Bersih */
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Maximum Liquid Glass Dark */
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.45) !important;
+            backdrop-filter: blur(35px) saturate(220%) !important;
+            -webkit-backdrop-filter: blur(35px) saturate(220%) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+        }
+
+        .glass-card, .dropdown-menu {
+            background: rgba(15, 15, 15, 0.45) !important;
+            backdrop-filter: blur(32px) saturate(200%) !important;
+            -webkit-backdrop-filter: blur(32px) saturate(200%) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.04) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.8) !important;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        /* Card Interactive Hover Animation */
+        .project-card:hover, .category-card:hover {
+            background: rgba(30, 30, 30, 0.6) !important;
+            border-top: 1px solid rgba(6, 182, 212, 0.6) !important;
+            border-left: 1px solid rgba(6, 182, 212, 0.4) !important;
+            transform: translateY(-6px) scale(1.01) !important;
+            box-shadow: 0 25px 50px -12px rgba(6, 182, 212, 0.3) !important;
+        }
+
+        /* Dropdown Items */
+        .dropdown-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 12px 16px !important;
+            font-size: 0.875rem !important;
+            color: #e2e8f0 !important;
+            transition: all 0.3s ease !important;
+            width: calc(100% - 12px) !important;
+            margin: 4px 6px !important;
+            border-radius: 14px !important;
+            text-align: left !important;
+            background: transparent !important;
+        }
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.12) !important;
+            color: #ffffff !important;
+            transform: translateX(6px) !important;
+        }
+
+        /* Inputs Premium Glow */
+        .form-input {
+            width: 100% !important;
+            border-radius: 16px !important;
+            padding: 12px 16px !important;
+            font-size: 0.875rem !important;
+            transition: all 0.3s ease !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+        }
+        .form-input:focus {
+            background: rgba(0, 0, 0, 0.6) !important;
+            border-color: #06b6d4 !important;
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.25) !important;
+            outline: none !important;
+        }
+
+        /* =========================================
+           THEME 2: PURE LIGHT MODE 
            ========================================= */
         body.light-mode {
-          background-color: #f8fafc !important; /* Sangat terang & clean */
-          color: #0f172a !important;
-        }
-        body.light-mode .hero-grid {
-          background-image: 
-            linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-color: #ffffff !important; /* Putih Bersih */
+            color: #000000 !important; /* Font Hitam Pekat */
         }
         
-        /* Light Mode Glass */
-        body.light-mode .glass-card, 
-        body.light-mode .glass-nav, 
-        body.light-mode .dropdown-menu {
-          background: rgba(255, 255, 255, 0.6) !important;
-          backdrop-filter: blur(40px) saturate(250%) !important;
-          -webkit-backdrop-filter: blur(40px) saturate(250%) !important;
-          border-top: 1px solid rgba(255, 255, 255, 1) !important;
-          border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
-          border-right: 1px solid rgba(255, 255, 255, 0.4) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
-          box-shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.08) !important;
+        body.light-mode .hero-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px) !important;
+        }
+
+        /* Maximum Liquid Glass Light */
+        body.light-mode .glass-nav {
+            background: rgba(255, 255, 255, 0.5) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+
+        body.light-mode .glass-card, body.light-mode .dropdown-menu {
+            background: rgba(255, 255, 255, 0.45) !important;
+            backdrop-filter: blur(35px) saturate(240%) !important;
+            -webkit-backdrop-filter: blur(35px) saturate(240%) !important;
+            border-top: 1px solid rgba(255, 255, 255, 1) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
+            border-right: 1px solid rgba(0, 0, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08) !important;
         }
 
         body.light-mode .glass-card:hover {
-          background: rgba(255, 255, 255, 0.85) !important;
-          border-top: 1px solid rgba(6, 182, 212, 0.6) !important;
-          border-left: 1px solid rgba(6, 182, 212, 0.4) !important;
-          box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.15) !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            border-top: 1px solid rgba(6, 182, 212, 0.6) !important;
+            border-left: 1px solid rgba(6, 182, 212, 0.4) !important;
+            box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.2) !important;
         }
 
-        /* Text Fixes for Light Mode */
-        body.light-mode .text-white { color: #0f172a !important; }
-        body.light-mode .text-slate-200 { color: #1e293b !important; }
-        body.light-mode .text-slate-300 { color: #334155 !important; }
-        body.light-mode .text-slate-400 { color: #64748b !important; }
-        body.light-mode .text-slate-500 { color: #94a3b8 !important; }
+        /* Force Font Menyesuaikan Warna Tema di Light Mode */
+        body.light-mode .text-white { color: #000000 !important; }
+        body.light-mode .text-slate-200 { color: #111111 !important; }
+        body.light-mode .text-slate-300 { color: #222222 !important; }
+        body.light-mode .text-slate-400 { color: #444444 !important; }
+        body.light-mode .text-slate-500 { color: #666666 !important; }
 
-        /* Force transparent for specific Tailwind dark classes in Light Mode */
-        body.light-mode .bg-navy-950, 
-        body.light-mode .bg-navy-900, 
-        body.light-mode .bg-white\/5 {
+        body.light-mode .dropdown-item { color: #222222 !important; }
+        body.light-mode .dropdown-item:hover {
+            background: rgba(0, 0, 0, 0.06) !important;
+            color: #000000 !important;
+        }
+
+        body.light-mode .form-input {
+            background: rgba(0, 0, 0, 0.03) !important;
+            border: 1px solid rgba(0, 0, 0, 0.12) !important;
+            color: #000000 !important;
+        }
+        body.light-mode .form-input:focus {
+            background: #ffffff !important;
+            border-color: #06b6d4 !important;
+        }
+
+        /* Reset Background Transparan Bawaan Struktur Lama */
+        body.light-mode .bg-navy-950, body.light-mode .bg-navy-900, body.light-mode .bg-white\/5 {
             background-color: transparent !important;
         }
         body.light-mode .border-white\/10 {
-            border-color: rgba(0,0,0,0.06) !important;
+            border-color: rgba(0, 0, 0, 0.08) !important;
         }
 
-        /* Light Mode Dropdown */
-        body.light-mode .dropdown-item {
-          color: #334155 !important;
+        /* =========================================
+           ANIMATIONS & BG INTERACTIVE MESH
+           ========================================= */
+        .hero-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPan 25s linear infinite;
         }
-        body.light-mode .dropdown-item:hover {
-          background: rgba(0, 0, 0, 0.04) !important;
-          color: #0f172a !important;
-        }
-
-        /* Light Mode Inputs */
-        body.light-mode .form-input {
-          background: rgba(255, 255, 255, 0.7) !important;
-          border: 1px solid rgba(0, 0, 0, 0.1) !important;
-          color: #0f172a !important;
-          box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
-        }
-        body.light-mode .form-input:focus {
-          background: #ffffff !important;
-          border-color: #06b6d4 !important;
-          box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2), inset 0 2px 4px rgba(0,0,0,0.02) !important;
+        @keyframes gridPan {
+            from { background-position: 0 0; }
+            to { background-position: 0 50px; }
         }
 
-        /* General Animations */
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes fadeIn { 
-          from { opacity: 0; transform: translateY(15px) scale(0.98); filter: blur(4px); } 
-          to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
+        /* Full Screen Pop Animation ala iOS View Controller */
+        .fade-in { animation: iosPop 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes iosPop {
+            from { opacity: 0; transform: translateY(16px) scale(0.99); filter: blur(6px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
     </style>
     
