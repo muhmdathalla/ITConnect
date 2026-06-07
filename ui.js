@@ -1,0 +1,321 @@
+/* ========================================
+   ITConnect — UI Utilities
+   ======================================== */
+
+const UI = {
+
+  // ── FORMATTERS ──────────────────────────────────────────────
+  currency(amount) {
+    if (!amount && amount !== 0) return 'Rp0';
+    return 'Rp' + Number(amount).toLocaleString('id-ID');
+  },
+
+  date(ts) {
+    if (!ts) return '-';
+    return new Date(ts).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+  },
+
+  timeAgo(ts) {
+    const diff = Date.now() - ts;
+    const min = Math.floor(diff / 60000);
+    const hr = Math.floor(diff / 3600000);
+    const day = Math.floor(diff / 86400000);
+    if (min < 1) return 'Baru saja';
+    if (min < 60) return min + ' menit lalu';
+    if (hr < 24) return hr + ' jam lalu';
+    if (day < 7) return day + ' hari lalu';
+    return UI.date(ts);
+  },
+
+  daysLeft(deadline) {
+    const diff = deadline - Date.now();
+    const days = Math.ceil(diff / 86400000);
+    if (days < 0) return 'Terlambat';
+    if (days === 0) return 'Hari ini';
+    return days + ' hari lagi';
+  },
+
+  stars(rating, max = 5) {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.5;
+    let html = '';
+    for (let i = 0; i < full; i++) html += '<i data-lucide="star" class="w-3 h-3 fill-amber-400 text-amber-400"></i>';
+    if (half) html += '<i data-lucide="star-half" class="w-3 h-3 fill-amber-400 text-amber-400"></i>';
+    for (let i = full + (half ? 1 : 0); i < max; i++) html += '<i data-lucide="star" class="w-3 h-3 text-slate-600"></i>';
+    return `<span class="inline-flex items-center gap-0.5">${html}</span>`;
+  },
+
+  avatar(user, size = 'md') {
+    const sizes = { xs: 'w-6 h-6 text-xs', sm: 'w-8 h-8 text-sm', md: 'w-10 h-10 text-base', lg: 'w-14 h-14 text-xl', xl: 'w-20 h-20 text-2xl' };
+    const cls = sizes[size] || sizes.md;
+    if (user?.avatar) {
+      return `<img src="${user.avatar}" class="${cls} rounded-full object-cover ring-2 ring-cyan-500/30" alt="${user.name}">`;
+    }
+    const initials = (user?.name || '?').split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
+    const colors = ['from-cyan-500 to-blue-600','from-violet-500 to-purple-600','from-emerald-500 to-teal-600','from-orange-500 to-rose-600','from-pink-500 to-fuchsia-600'];
+    const color = colors[(user?.name?.charCodeAt(0) || 0) % colors.length];
+    return `<div class="${cls} rounded-full bg-gradient-to-br ${color} flex items-center justify-center font-bold text-white ring-2 ring-cyan-500/30 flex-shrink-0">${initials}</div>`;
+  },
+
+  categoryBadge(cat) {
+    const map = {
+      'Web Development': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      'Mobile App': 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      'UI/UX Design': 'bg-pink-500/20 text-pink-300 border-pink-500/30',
+      'Data Science': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+      'Backend': 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+      'Frontend': 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+      'DevOps': 'bg-slate-500/20 text-slate-300 border-slate-500/30',
+      'Cybersecurity': 'bg-red-500/20 text-red-300 border-red-500/30',
+      'Machine Learning': 'bg-teal-500/20 text-teal-300 border-teal-500/30',
+    };
+    const cls = map[cat] || 'bg-slate-500/20 text-slate-300 border-slate-500/30';
+    return `<span class="px-2 py-0.5 text-xs rounded-full border ${cls}">${cat}</span>`;
+  },
+
+  statusBadge(status) {
+    const map = {
+      open: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+      'in-progress': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      completed: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
+      cancelled: 'bg-red-500/20 text-red-300 border-red-500/30',
+    };
+    const labels = { open: 'Open', 'in-progress': 'In Progress', completed: 'Selesai', cancelled: 'Dibatalkan' };
+    const cls = map[status] || 'bg-slate-500/20 text-slate-300 border-slate-500/30';
+    return `<span class="px-2 py-0.5 text-xs rounded-full border ${cls}">${labels[status] || status}</span>`;
+  },
+
+  // ── TOAST ────────────────────────────────────────────────────
+  toast(message, type = 'success', duration = 3500) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const icons = { success: 'check-circle', error: 'x-circle', warning: 'alert-triangle', info: 'info' };
+    const colors = {
+      success: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300',
+      error: 'border-red-500/40 bg-red-500/10 text-red-300',
+      warning: 'border-amber-500/40 bg-amber-500/10 text-amber-300',
+      info: 'border-cyan-500/40 bg-cyan-500/10 text-cyan-300'
+    };
+    const id = 'toast_' + Date.now();
+    const div = document.createElement('div');
+    div.id = id;
+    div.className = `toast-item flex items-center gap-3 px-4 py-3 rounded-xl border backdrop-blur-xl ${colors[type]} shadow-xl max-w-sm`;
+    div.innerHTML = `<i data-lucide="${icons[type]}" class="w-5 h-5 flex-shrink-0"></i><span class="text-sm font-medium">${message}</span><button onclick="document.getElementById('${id}')?.remove()" class="ml-auto opacity-60 hover:opacity-100"><i data-lucide="x" class="w-4 h-4"></i></button>`;
+    container.appendChild(div);
+    if (window.lucide) lucide.createIcons({ nodes: [div] });
+    setTimeout(() => { div.classList.add('toast-exit'); setTimeout(() => div.remove(), 300); }, duration);
+  },
+
+  // ── MODAL ────────────────────────────────────────────────────
+  modal(content, opts = {}) {
+    const overlay = document.getElementById('modal-overlay');
+    const body = document.getElementById('modal-body');
+    if (!overlay || !body) return;
+    body.innerHTML = content;
+    overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
+    if (window.lucide) lucide.createIcons({ nodes: [body] });
+    if (opts.onOpen) opts.onOpen();
+  },
+
+  closeModal() {
+    const overlay = document.getElementById('modal-overlay');
+    if (overlay) { overlay.classList.add('hidden'); overlay.classList.remove('flex'); }
+  },
+
+  confirm(message, onConfirm, opts = {}) {
+    UI.modal(`
+      <div class="glass-card p-6 rounded-2xl max-w-sm w-full mx-4">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400"></i>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-white mb-1">${opts.title || 'Konfirmasi'}</h3>
+            <p class="text-sm text-slate-400">${message}</p>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-5 justify-end">
+          <button onclick="UI.closeModal()" class="px-4 py-2 rounded-xl text-sm text-slate-400 hover:text-white hover:bg-white/10 transition-all">Batal</button>
+          <button id="confirm-ok" class="btn-primary px-4 py-2 rounded-xl text-sm">${opts.confirmText || 'Oke'}</button>
+        </div>
+      </div>
+    `);
+    document.getElementById('confirm-ok')?.addEventListener('click', () => {
+      UI.closeModal();
+      onConfirm();
+    });
+  },
+
+  // ── LOADING ──────────────────────────────────────────────────
+  setLoading(bool) {
+    const el = document.getElementById('page-loading');
+    if (el) el.style.display = bool ? 'flex' : 'none';
+  },
+
+  // ── NAVIGATION ───────────────────────────────────────────────
+  renderNav() {
+    const nav = document.getElementById('navbar');
+    if (!nav) return;
+    const user = Store.getCurrentUser();
+    const notifCount = user ? Store.getUnreadCount(user.id) : 0;
+    const msgCount = user ? Store.getTotalUnread(user.id) : 0;
+
+    if (!user) {
+      nav.innerHTML = `
+        <div class="nav-container">
+          <a href="#/" class="nav-logo">
+            <span class="logo-icon"><i data-lucide="zap" class="w-5 h-5"></i></span>
+            <span>IT<span class="text-cyan-400">Connect</span></span>
+          </a>
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#/" class="nav-link">Beranda</a>
+            <a href="#/browse" class="nav-link">Cari Proyek</a>
+            <a href="#/about" class="nav-link">Tentang</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="#/login" class="nav-link hidden sm:block">Masuk</a>
+            <a href="#/register" class="btn-primary px-4 py-2 rounded-xl text-sm">Daftar Gratis</a>
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-2">
+          <a href="#/" class="nav-link py-2">Beranda</a>
+          <a href="#/browse" class="nav-link py-2">Cari Proyek</a>
+          <a href="#/login" class="nav-link py-2">Masuk</a>
+        </div>`;
+    } else {
+      nav.innerHTML = `
+        <div class="nav-container">
+          <a href="#/dashboard" class="nav-logo">
+            <span class="logo-icon"><i data-lucide="zap" class="w-5 h-5"></i></span>
+            <span>IT<span class="text-cyan-400">Connect</span></span>
+          </a>
+          <div class="hidden md:flex items-center gap-1">
+            <a href="#/dashboard" class="nav-link">Dashboard</a>
+            <a href="#/browse" class="nav-link">Proyek</a>
+            ${user.role === 'klien' ? '<a href="#/post-project" class="nav-link">Post Proyek</a>' : ''}
+            <a href="#/messages" class="nav-link relative">Pesan${msgCount > 0 ? `<span class="notif-badge">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}</a>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="#/notifications" class="p-2 rounded-xl hover:bg-white/10 transition-all relative">
+              <i data-lucide="bell" class="w-5 h-5"></i>
+              ${notifCount > 0 ? `<span class="notif-badge">${notifCount > 9 ? '9+' : notifCount}</span>` : ''}
+            </a>
+            <div class="relative group">
+              <button class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-white/10 transition-all">
+                ${UI.avatar(user, 'sm')}
+                <span class="hidden sm:block text-sm font-medium max-w-[100px] truncate">${user.name.split(' ')[0]}</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 opacity-60 hidden sm:block"></i>
+              </button>
+              <div class="dropdown-menu hidden group-hover:block absolute right-0 top-full mt-2 w-52 glass-card rounded-xl overflow-hidden shadow-2xl z-50 py-1">
+                <div class="px-3 py-2 border-b border-white/10">
+                  <div class="text-sm font-medium text-white truncate">${user.name}</div>
+                  <div class="text-xs text-slate-400 truncate">${user.email}</div>
+                </div>
+                <a href="#/profile" class="dropdown-item"><i data-lucide="user" class="w-4 h-4"></i> Profil Saya</a>
+                <a href="#/payment" class="dropdown-item"><i data-lucide="wallet" class="w-4 h-4"></i> Pembayaran</a>
+                <a href="#/settings" class="dropdown-item"><i data-lucide="settings" class="w-4 h-4"></i> Pengaturan</a>
+                <div class="border-t border-white/10 mt-1 pt-1">
+                  <button onclick="App.logout()" class="dropdown-item text-red-400 w-full text-left"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
+                </div>
+              </div>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-1 border-t border-white/10 mt-2 pt-3">
+          <a href="#/dashboard" class="nav-link py-2">Dashboard</a>
+          <a href="#/browse" class="nav-link py-2">Proyek</a>
+          ${user.role === 'klien' ? '<a href="#/post-project" class="nav-link py-2">Post Proyek</a>' : ''}
+          <a href="#/messages" class="nav-link py-2">Pesan</a>
+          <a href="#/notifications" class="nav-link py-2">Notifikasi</a>
+          <a href="#/profile" class="nav-link py-2">Profil</a>
+          <a href="#/payment" class="nav-link py-2">Pembayaran</a>
+          <button onclick="App.logout()" class="nav-link py-2 text-red-400 text-left">Keluar</button>
+        </div>`;
+    }
+
+    if (window.lucide) lucide.createIcons({ nodes: [nav] });
+
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      menu?.classList.toggle('hidden');
+    });
+  },
+
+  // ── EMPTY STATE ──────────────────────────────────────────────
+  emptyState(icon, title, desc, actionHtml = '') {
+    return `
+      <div class="flex flex-col items-center justify-center py-16 text-center">
+        <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
+          <i data-lucide="${icon}" class="w-8 h-8 text-slate-500"></i>
+        </div>
+        <h3 class="font-semibold text-white mb-1">${title}</h3>
+        <p class="text-slate-400 text-sm mb-4">${desc}</p>
+        ${actionHtml}
+      </div>`;
+  },
+
+  // ── PROJECT CARD ─────────────────────────────────────────────
+  projectCard(proj, user) {
+    const isSaved = user && (proj.saved || []).includes(user.id);
+    const bidCount = Store.getBidsByProject(proj.id).length;
+    const daysLeft = UI.daysLeft(proj.deadline);
+    const daysLeftNum = Math.ceil((proj.deadline - Date.now()) / 86400000);
+    const daysClass = daysLeftNum < 5 ? 'text-red-400' : daysLeftNum < 10 ? 'text-amber-400' : 'text-emerald-400';
+
+    return `
+    <div class="project-card group cursor-pointer" onclick="Router.go('/project/${proj.id}')">
+      <div class="flex items-start justify-between gap-2 mb-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          ${UI.categoryBadge(proj.category)}
+          ${UI.statusBadge(proj.status)}
+        </div>
+        ${user ? `<button onclick="event.stopPropagation(); UI.handleSaveProject('${proj.id}')" class="p-1.5 rounded-lg hover:bg-white/10 transition-all flex-shrink-0">
+          <i data-lucide="${isSaved ? 'bookmark-check' : 'bookmark'}" class="w-4 h-4 ${isSaved ? 'text-cyan-400' : 'text-slate-500'}"></i>
+        </button>` : ''}
+      </div>
+      <h3 class="font-semibold text-white mb-2 line-clamp-2 group-hover:text-cyan-400 transition-colors">${proj.title}</h3>
+      <p class="text-slate-400 text-sm line-clamp-2 mb-3">${proj.description}</p>
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        ${(proj.skills || []).slice(0,4).map(s => `<span class="skill-tag">${s}</span>`).join('')}
+        ${proj.skills?.length > 4 ? `<span class="skill-tag">+${proj.skills.length - 4}</span>` : ''}
+      </div>
+      <div class="flex items-center justify-between pt-3 border-t border-white/10">
+        <div>
+          <div class="text-lg font-bold text-cyan-400">${UI.currency(proj.budget)}</div>
+          <div class="text-xs text-slate-500">${proj.budgetType === 'fixed' ? 'Fixed Price' : 'Per Jam'}</div>
+        </div>
+        <div class="text-right">
+          <div class="text-sm ${daysClass} font-medium">${daysLeft}</div>
+          <div class="text-xs text-slate-500">${bidCount} penawaran</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
+        ${UI.avatar({ name: proj.clientName }, 'xs')}
+        <span class="text-xs text-slate-400 truncate">${proj.clientName}</span>
+        <div class="ml-auto flex items-center gap-1">
+          <i data-lucide="eye" class="w-3 h-3 text-slate-500"></i>
+          <span class="text-xs text-slate-500">${proj.views || 0}</span>
+        </div>
+      </div>
+    </div>`;
+  },
+
+  handleSaveProject(projectId) {
+    const user = Store.getCurrentUser();
+    if (!user) { Router.go('/login'); return; }
+    const saved = Store.toggleSaveProject(projectId, user.id);
+    UI.toast(saved ? 'Proyek disimpan!' : 'Proyek dihapus dari simpanan', 'info');
+    // Re-render the icon
+    lucide.createIcons();
+  }
+};
+
+window.UI = UI;

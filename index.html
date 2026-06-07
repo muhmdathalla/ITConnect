@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITConnect - Marketplace Jasa IT Mahasiswa</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN for quick deployment) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { navy: { 900: '#0f172a', 950: '#020617' } }
+                }
+            }
+        }
+    </script>
+    
+    <!-- PENTING: Gunakan type="text/tailwindcss" agar @apply terbaca oleh Tailwind CDN -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+          .gradient-text { @apply text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500; }
+          .glass-nav { @apply bg-navy-950/80 backdrop-blur-md; }
+          .glass-card { @apply bg-white/5 border border-white/10 backdrop-blur-lg; }
+        }
+
+        @layer components {
+          /* Navigation */
+          .nav-container { @apply max-w-6xl mx-auto px-4 h-16 flex items-center justify-between w-full; }
+          .nav-logo { @apply flex items-center gap-2 font-bold text-lg text-white tracking-tight; }
+          .nav-link { @apply px-3 py-2 text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all; }
+          .dropdown-item { @apply flex items-center gap-3 px-4 py-2.5 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-colors w-full text-left cursor-pointer; }
+          
+          /* Buttons */
+          .btn-primary { @apply bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center; }
+          .btn-secondary { @apply bg-white/10 text-white hover:bg-white/20 border border-white/10 hover:-translate-y-0.5 transition-all flex items-center justify-center; }
+          
+          /* Cards */
+          .project-card { @apply glass-card p-5 rounded-2xl hover:border-cyan-500/50 hover:bg-white/10 transition-all flex flex-col h-full relative overflow-hidden; }
+          .stat-card { @apply bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:border-cyan-500/30 transition-colors; }
+          .category-card { @apply glass-card p-5 rounded-2xl flex flex-col items-center justify-center text-center hover:border-cyan-500/50 hover:shadow-xl hover:shadow-cyan-500/10 transition-all; }
+          
+          .pricing-card { @apply glass-card p-6 rounded-2xl flex flex-col h-full hover:border-white/20 transition-colors relative mt-4; }
+          .pricing-card-highlight { @apply bg-gradient-to-b from-cyan-500/10 to-transparent border border-cyan-500/30 p-6 rounded-2xl flex flex-col h-full relative mt-4; }
+          .cta-card { @apply bg-gradient-to-br from-cyan-900/40 to-blue-900/40 border border-cyan-500/20 relative overflow-hidden; }
+          
+          /* Forms */
+          .form-group { @apply flex flex-col gap-1.5; }
+          .form-label { @apply text-xs font-semibold text-slate-400 uppercase tracking-wider; }
+          .form-input { @apply w-full bg-navy-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600; }
+          .input-icon-wrapper { @apply relative flex items-center; }
+          .input-icon { @apply absolute left-3 w-5 h-5 text-slate-500; }
+          
+          /* Badges & Tags */
+          .skill-tag { @apply px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-slate-300; }
+          .notif-badge { @apply absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white; }
+        }
+
+        /* Animations */
+        .toast-item { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-exit { animation: slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Loading Spinner */
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(6, 182, 212, 0.2); border-radius: 50%; border-top-color: #06b6d4; animation: spin 1s ease-in-out infinite; }
+        .loading-spinner-sm { width: 20px; height: 20px; border: 2px solid rgba(6, 182, 212, 0.2); border-radius: 50%; border-top-color: #06b6d4; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Background Grids */
+        .hero-grid {
+          position: absolute; inset: 0;
+          background-image: 
+            linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+          background-size: 40px 40px;
+          mask-image: radial-gradient(circle at center, black, transparent 80%);
+          -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+    </style>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-navy-950 text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 glass-nav border-b border-white/10 transition-all duration-300"></nav>
+
+    <!-- Main Application Root -->
+    <main id="app-root" class="flex-grow pt-16"></main>
+
+    <!-- Global Components -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2"></div>
+    
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="fixed inset-0 bg-navy-950/80 backdrop-blur-sm z-[70] hidden items-center justify-center p-4">
+        <div id="modal-body" class="w-full max-w-lg"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="page-loading" class="fixed inset-0 bg-navy-950 z-[100] hidden items-center justify-center">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Application Scripts (JANGAN UBAH URUTANNYA) -->
+    <script src="store.js"></script>
+    <script src="ui.js"></script>
+    <script src="home.js"></script>
+    <script src="authView.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="browse.js"></script>
+    <script src="about.js"></script>
+    <script src="postProject.js"></script>
+    <script src="project.js"></script>
+    <script src="profile.js"></script>
+    <script src="messages.js"></script>
+    <script src="payment.js"></script>
+    <script src="notifications.js"></script>
+    <script src="settings.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Initialize App -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init();
+        });
+    </script>
+</body>
+</html>
