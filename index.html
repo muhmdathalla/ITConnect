@@ -61,7 +61,8 @@
             text-decoration: none !important;
         }
 
-        .gradient-text, .text-cyan-400 {
+        /* Kebiri total semua warna bawaan sistem lama */
+        .gradient-text, .text-cyan-400, [class*="text-cyan-"], [class*="text-blue-"], [class*="text-purple-"] {
             background: none !important;
             -webkit-text-fill-color: currentcolor !important;
             color: inherit !important;
@@ -73,38 +74,52 @@
         }
 
         /* =========================================
-           FIX TOTAL CATEGORY CARD & LOGO CENTERED (iOS Standard)
+           MAXIMUM LIQUID GLASS CATEGORY CARD FIXED (iOS 26.5 PRESISI)
            ========================================= */
         .category-card {
             display: flex !important;
+            flex-direction: column !important;
             align-items: center !important;
-            justify-content: flex-start !important;
-            gap: 1.25rem !important; /* Jarak pas antara ikon dan teks */
-            padding: 1.25rem !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 1.75rem 1.25rem !important;
             width: 100% !important;
             box-sizing: border-box !important;
-            border-radius: 20px !important; /* Radius membulat halus khas iOS */
+            border-radius: 24px !important; /* Membulat penuh premium khas apple controller */
+            cursor: pointer !important;
         }
 
-        /* Memaksa lingkaran pembungkus ikon agar bulat sempurna dan di tengah */
-        .category-card .w-12.h-12, 
-        .category-card [class*="rounded-xl"],
-        .category-card [class*="rounded-lg"] {
+        /* Memaksa lingkaran pembungkus ikon agar stabil, bulat total, dan gak menciut pas di-hover */
+        .category-card .w-12.h-12,
+        .category-card [class*="w-12"] {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            flex-shrink: 0 !important; /* Mencegah ikon menciut atau gepeng */
-            width: 3rem !important;
-            height: 3rem !important;
-            border-radius: 14px !important;
+            flex-shrink: 0 !important;
+            width: 3.5rem !important;
+            height: 3.5rem !important;
+            border-radius: 50% !important; /* Ubah jadi lingkaran penuh biar makin sleek */
+            margin-bottom: 1rem !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            background: transparent !important; /* Buang gradasi warna di home.js */
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
-        /* Memaksa logo/ikon di dalam lingkaran tepat berada di tengah */
-        .category-card svg, 
-        .category-card i {
-            margin: auto !important;
+        /* Memaksa Logo/Ikon SVG Lucide tepat berada di tengah-tengah lingkaran */
+        .category-card .w-12.h-12 svg,
+        .category-card .w-12.h-12 i,
+        .category-card [class*="w-12"] svg {
             display: block !important;
+            margin: auto !important;
+            width: 1.5rem !important;
+            height: 1.5rem !important;
             flex-shrink: 0 !important;
+        }
+
+        /* Matikan efek scale bawaan tombol tailwind lama biar gak tumpang tindih */
+        .category-card:hover .group-hover\:scale-110 {
+            transform: none !important;
         }
 
         /* =========================================
@@ -118,41 +133,44 @@
 
         .nav-logo, .nav-link { color: #ffffff !important; }
 
-        /* Navigasi Kaca Hitam Maksimal */
+        /* Navigasi Kaca Hitam */
         .glass-nav {
-            background: rgba(0, 0, 0, 0.7) !important;
+            background: rgba(0, 0, 0, 0.75) !important;
             backdrop-filter: blur(40px) saturate(150%) !important;
             -webkit-backdrop-filter: blur(40px) saturate(150%) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
         }
 
-        /* Komponen Kaca Hitam Maksimal iOS 26.5 */
-        .glass-card, .dropdown-menu, .category-card {
-            background: rgba(12, 12, 12, 0.55) !important;
+        /* Komponen Kaca Hitam Maksimal */
+        .glass-card, .dropdown-menu, .category-card, .project-card, .stat-card {
+            background: rgba(12, 12, 12, 0.6) !important;
             backdrop-filter: blur(35px) !important;
             -webkit-backdrop-filter: blur(35px) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
-            border-left: 1px solid rgba(255, 255, 255, 0.14) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-right: 1px solid rgba(255, 255, 255, 0.04) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9) !important;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
         /* Lingkaran Ikon Tema Hitam */
-        .category-card .w-12.h-12 {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        .category-card .w-12.h-12, .category-card [class*="w-12"] {
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
         }
-        .category-card svg, .category-card i { color: #ffffff !important; }
 
         /* Hover Kaca Melayang Monokrom */
         .project-card:hover, .category-card:hover {
             background: rgba(255, 255, 255, 0.08) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
             border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
-            transform: translateY(-5px) !important;
-            box-shadow: 0 30px 60px rgba(255, 255, 255, 0.05) !important;
+            transform: translateY(-6px) !important;
+            box-shadow: 0 30px 60px rgba(255, 255, 255, 0.06) !important;
+        }
+        .category-card:hover .w-12.h-12, .category-card:hover [class*="w-12"] {
+            transform: scale(1.1) !important;
+            border-color: #ffffff !important;
         }
 
         /* Tombol Utama (Putih Bersih di Tema Hitam) */
@@ -195,16 +213,6 @@
             color: #ffffff !important;
         }
 
-        /* Kolom Input Form */
-        .form-input {
-            width: 100% !important;
-            border-radius: 14px !important;
-            padding: 12px 16px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            color: #ffffff !important;
-        }
-
         /* =========================================
            TAMPILAN 2: PURE LIGHT (PUTIH TOTAL)
            ========================================= */
@@ -222,7 +230,8 @@
         }
 
         /* Komponen Kaca Putih */
-        body.light-mode .glass-card, body.light-mode .dropdown-menu, body.light-mode .category-card {
+        body.light-mode .glass-card, body.light-mode .dropdown-menu, 
+        body.light-mode .category-card, body.light-mode .project-card, body.light-mode .stat-card {
             background: rgba(255, 255, 255, 0.55) !important;
             border-top: 1px solid rgba(255, 255, 255, 1) !important;
             border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
@@ -232,16 +241,18 @@
         }
 
         /* Lingkaran Ikon Tema Putih */
-        body.light-mode .category-card .w-12.h-12 {
-            background: rgba(0, 0, 0, 0.04) !important;
-            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        body.light-mode .category-card .w-12.h-12, body.light-mode .category-card [class*="w-12"] {
+            border: 1px solid rgba(0, 0, 0, 0.15) !important;
+            color: #000000 !important;
         }
-        body.light-mode .category-card svg, body.light-mode .category-card i { color: #000000 !important; }
 
-        body.light-mode .glass-card:hover, body.light-mode .category-card:hover {
+        body.light-mode .glass-card:hover, body.light-mode .category-card:hover, body.light-mode .project-card:hover {
             background: rgba(255, 255, 255, 0.9) !important;
             border-top: 1px solid rgba(0, 0, 0, 0.4) !important;
             border-left: 1px solid rgba(0, 0, 0, 0.3) !important;
+        }
+        body.light-mode .category-card:hover .w-12.h-12, body.light-mode .category-card:hover [class*="w-12"] {
+            border-color: #000000 !important;
         }
 
         /* Tombol Utama (Hitam di Tema Putih) */
@@ -253,13 +264,6 @@
         body.light-mode .btn-primary:hover {
             background: transparent !important;
             color: #000000 !important;
-        }
-
-        /* Tombol Sekunder di Tema Putih */
-        body.light-mode .btn-secondary {
-            background: rgba(0, 0, 0, 0.05) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 0, 0, 0.1) !important;
         }
 
         /* Sinkronisasi Semua Teks & Warna Font di Light Mode */
@@ -275,21 +279,17 @@
             color: #000000 !important;
         }
 
-        body.light-mode .form-input {
-            background: rgba(0, 0, 0, 0.02) !important;
-            border: 1px solid rgba(0, 0, 0, 0.15) !important;
-            color: #000000 !important;
-        }
-
-        /* Bersihkan total sisa warna bawaan */
-        body.light-mode .bg-navy-950, body.light-mode .bg-navy-900, body.light-mode .bg-white\/5 {
+        /* Bersihkan total sisa warna bawaan tailwind */
+        body.light-mode .bg-navy-950, body.light-mode .bg-navy-900, body.light-mode .bg-white\/5,
+        [class*="bg-gradient-to-"] {
+            background-image: none !important;
             background-color: transparent !important;
         }
         body.light-mode .border-white\/10 {
             border-color: rgba(0, 0, 0, 0.1) !important;
         }
         
-        /* Hilangkan Wallpaper/Grid bawaan */
+        /* Matikan total sisa grid background wallpaper */
         .hero-grid { display: none !important; }
 
         /* Animasi Masuk Halaman Selembut iOS */
