@@ -24,18 +24,54 @@
     </script>
     
     <!-- CUSTOM LIQUID GLASS & THEME CSS -->
-   <style>
+  <style>
         /* =========================================
-           CORE RESETS & OVERLAP PROTECTION
+           CORE LAYOUT & FLEXBOX STRUCTURE FIXED
            ========================================= */
-        nav#navbar { z-index: 99999 !important; }
-        .dropdown-menu { z-index: 100000 !important; }
+        nav#navbar { 
+            z-index: 99999 !important; 
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            display: block !important;
+        }
+        
+        /* Maksa container navbar tetap di tengah & berjejer rapi */
+        .nav-container { 
+            max-w: 72rem !important; 
+            margin-left: auto !important; 
+            margin-right: auto !important; 
+            padding-left: 1rem !important; 
+            padding-right: 1rem !important; 
+            height: 4rem !important; 
+            display: flex !important; 
+            align-items: center !important; 
+            justify-content: space-between !important; 
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
 
-        /* Matikan total efek gradasi warna bawaan lama */
-        .gradient-text {
+        .nav-logo { 
+            display: flex !important; 
+            align-items: center !important; 
+            gap: 0.5rem !important; 
+            font-weight: 800 !important; 
+            font-size: 1.125rem !important; 
+            letter-spacing: -0.025em !important;
+            text-decoration: none !important;
+        }
+
+        /* Matikan gradasi warna bawaan lama */
+        .gradient-text, .text-cyan-400 {
             background: none !important;
             -webkit-text-fill-color: currentcolor !important;
             color: inherit !important;
+        }
+
+        .dropdown-menu { 
+            z-index: 100000 !important; 
+            box-sizing: border-box !important;
         }
 
         /* =========================================
@@ -43,21 +79,23 @@
            ========================================= */
         body {
             background-color: #000000 !important; /* Hitam Total */
-            color: #ffffff !important; /* Teks Putih Bersih */
+            color: #ffffff !important; /* Font Putih Bersih */
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Navigasi Kaca Hitam */
+        .nav-logo, .nav-link { color: #ffffff !important; }
+
+        /* Navigasi Kaca Hitam Maksimal */
         .glass-nav {
-            background: rgba(0, 0, 0, 0.6) !important;
+            background: rgba(0, 0, 0, 0.7) !important;
             backdrop-filter: blur(40px) saturate(150%) !important;
             -webkit-backdrop-filter: blur(40px) saturate(150%) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
         }
 
-        /* Komponen Kaca Hitam Maksimal */
+        /* Komponen Kaca Hitam */
         .glass-card, .dropdown-menu {
-            background: rgba(10, 10, 10, 0.5) !important;
+            background: rgba(10, 10, 10, 0.6) !important;
             backdrop-filter: blur(35px) !important;
             -webkit-backdrop-filter: blur(35px) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
@@ -68,7 +106,7 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
-        /* Animasi Melayang Kaca Monokrom */
+        /* Hover Proyek */
         .project-card:hover, .category-card:hover {
             background: rgba(255, 255, 255, 0.08) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -77,7 +115,7 @@
             box-shadow: 0 30px 60px rgba(255, 255, 255, 0.05) !important;
         }
 
-        /* Tombol Utama (Putih Bersih di Tema Hitam) */
+        /* Tombol Monokrom Utama (Putih Bersih di Tema Hitam) */
         .btn-primary {
             background: #ffffff !important;
             color: #000000 !important;
@@ -89,7 +127,6 @@
         .btn-primary:hover {
             background: transparent !important;
             color: #ffffff !important;
-            transform: translateY(-2px);
         }
 
         /* Tombol Sekunder */
@@ -98,13 +135,9 @@
             color: #ffffff !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 14px !important;
-            transition: all 0.3s ease !important;
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2) !important;
         }
 
-        /* Menu Dropdown List */
+        /* Item Dropdown */
         .dropdown-item {
             display: flex !important;
             align-items: center !important;
@@ -120,7 +153,6 @@
         .dropdown-item:hover {
             background: rgba(255, 255, 255, 0.15) !important;
             color: #ffffff !important;
-            transform: translateX(4px) !important;
         }
 
         /* Kolom Input Form */
@@ -131,12 +163,6 @@
             background: rgba(255, 255, 255, 0.04) !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             color: #ffffff !important;
-            transition: all 0.3s ease !important;
-        }
-        .form-input:focus {
-            background: rgba(0, 0, 0, 0.8) !important;
-            border-color: #ffffff !important;
-            outline: none !important;
         }
 
         /* =========================================
@@ -144,18 +170,20 @@
            ========================================= */
         body.light-mode {
             background-color: #ffffff !important; /* Putih Total */
-            color: #000000 !important; /* Teks Hitam Pekat */
+            color: #000000 !important; /* Font Hitam Pekat */
         }
+
+        body.light-mode .nav-logo, body.light-mode .nav-link { color: #000000 !important; }
 
         /* Navigasi Kaca Putih */
         body.light-mode .glass-nav {
-            background: rgba(255, 255, 255, 0.6) !important;
+            background: rgba(255, 255, 255, 0.65) !important;
             border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
         }
 
-        /* Komponen Kaca Putih Maksimal */
+        /* Komponen Kaca Putih */
         body.light-mode .glass-card, body.light-mode .dropdown-menu {
-            background: rgba(255, 255, 255, 0.5) !important;
+            background: rgba(255, 255, 255, 0.55) !important;
             border-top: 1px solid rgba(255, 255, 255, 1) !important;
             border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
             border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
@@ -167,10 +195,9 @@
             background: rgba(255, 255, 255, 0.9) !important;
             border-top: 1px solid rgba(0, 0, 0, 0.4) !important;
             border-left: 1px solid rgba(0, 0, 0, 0.3) !important;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
         }
 
-        /* Tombol Utama (Hitam Pekat di Tema Putih) */
+        /* Tombol Utama (Hitam di Tema Putih) */
         body.light-mode .btn-primary {
             background: #000000 !important;
             color: #ffffff !important;
@@ -187,11 +214,8 @@
             color: #000000 !important;
             border: 1px solid rgba(0, 0, 0, 0.1) !important;
         }
-        body.light-mode .btn-secondary:hover {
-            background: rgba(0, 0, 0, 0.1) !important;
-        }
 
-        /* Sinkronisasi Semua Warna Elemen & Teks Bawaan */
+        /* Sinkronisasi Semua Teks & Warna Font di Light Mode */
         body.light-mode .text-white, body.light-mode .text-slate-200, 
         body.light-mode .text-slate-300, body.light-mode .text-slate-400, 
         body.light-mode .text-slate-500 { 
@@ -209,12 +233,8 @@
             border: 1px solid rgba(0, 0, 0, 0.15) !important;
             color: #000000 !important;
         }
-        body.light-mode .form-input:focus {
-            background: #ffffff !important;
-            border-color: #000000 !important;
-        }
 
-        /* Bersihkan total sisa warna Tailwind bawaan */
+        /* Bersihkan total sisa warna bawaan */
         body.light-mode .bg-navy-950, body.light-mode .bg-navy-900, body.light-mode .bg-white\/5 {
             background-color: transparent !important;
         }
