@@ -24,9 +24,9 @@
     </script>
     
     <!-- CUSTOM LIQUID GLASS & THEME CSS -->
-  <style>
+ <style>
         /* =========================================
-           CORE LAYOUT & FLEXBOX STRUCTURE FIXED
+           CORE LAYOUT & NAVBAR STRUCTURE FIXED
            ========================================= */
         nav#navbar { 
             z-index: 99999 !important; 
@@ -37,9 +37,8 @@
             display: block !important;
         }
         
-        /* Maksa container navbar tetap di tengah & berjejer rapi */
         .nav-container { 
-            max-w: 72rem !important; 
+            max-width: 72rem !important; 
             margin-left: auto !important; 
             margin-right: auto !important; 
             padding-left: 1rem !important; 
@@ -62,7 +61,6 @@
             text-decoration: none !important;
         }
 
-        /* Matikan gradasi warna bawaan lama */
         .gradient-text, .text-cyan-400 {
             background: none !important;
             -webkit-text-fill-color: currentcolor !important;
@@ -72,6 +70,41 @@
         .dropdown-menu { 
             z-index: 100000 !important; 
             box-sizing: border-box !important;
+        }
+
+        /* =========================================
+           FIX TOTAL CATEGORY CARD & LOGO CENTERED (iOS Standard)
+           ========================================= */
+        .category-card {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 1.25rem !important; /* Jarak pas antara ikon dan teks */
+            padding: 1.25rem !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            border-radius: 20px !important; /* Radius membulat halus khas iOS */
+        }
+
+        /* Memaksa lingkaran pembungkus ikon agar bulat sempurna dan di tengah */
+        .category-card .w-12.h-12, 
+        .category-card [class*="rounded-xl"],
+        .category-card [class*="rounded-lg"] {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important; /* Mencegah ikon menciut atau gepeng */
+            width: 3rem !important;
+            height: 3rem !important;
+            border-radius: 14px !important;
+        }
+
+        /* Memaksa logo/ikon di dalam lingkaran tepat berada di tengah */
+        .category-card svg, 
+        .category-card i {
+            margin: auto !important;
+            display: block !important;
+            flex-shrink: 0 !important;
         }
 
         /* =========================================
@@ -93,20 +126,27 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
         }
 
-        /* Komponen Kaca Hitam */
-        .glass-card, .dropdown-menu {
-            background: rgba(10, 10, 10, 0.6) !important;
+        /* Komponen Kaca Hitam Maksimal iOS 26.5 */
+        .glass-card, .dropdown-menu, .category-card {
+            background: rgba(12, 12, 12, 0.55) !important;
             backdrop-filter: blur(35px) !important;
             -webkit-backdrop-filter: blur(35px) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
-            border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.14) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.04) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85) !important;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
-        /* Hover Proyek */
+        /* Lingkaran Ikon Tema Hitam */
+        .category-card .w-12.h-12 {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+        .category-card svg, .category-card i { color: #ffffff !important; }
+
+        /* Hover Kaca Melayang Monokrom */
         .project-card:hover, .category-card:hover {
             background: rgba(255, 255, 255, 0.08) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -115,7 +155,7 @@
             box-shadow: 0 30px 60px rgba(255, 255, 255, 0.05) !important;
         }
 
-        /* Tombol Monokrom Utama (Putih Bersih di Tema Hitam) */
+        /* Tombol Utama (Putih Bersih di Tema Hitam) */
         .btn-primary {
             background: #ffffff !important;
             color: #000000 !important;
@@ -182,7 +222,7 @@
         }
 
         /* Komponen Kaca Putih */
-        body.light-mode .glass-card, body.light-mode .dropdown-menu {
+        body.light-mode .glass-card, body.light-mode .dropdown-menu, body.light-mode .category-card {
             background: rgba(255, 255, 255, 0.55) !important;
             border-top: 1px solid rgba(255, 255, 255, 1) !important;
             border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
@@ -191,7 +231,14 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
         }
 
-        body.light-mode .glass-card:hover {
+        /* Lingkaran Ikon Tema Putih */
+        body.light-mode .category-card .w-12.h-12 {
+            background: rgba(0, 0, 0, 0.04) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
+        body.light-mode .category-card svg, body.light-mode .category-card i { color: #000000 !important; }
+
+        body.light-mode .glass-card:hover, body.light-mode .category-card:hover {
             background: rgba(255, 255, 255, 0.9) !important;
             border-top: 1px solid rgba(0, 0, 0, 0.4) !important;
             border-left: 1px solid rgba(0, 0, 0, 0.3) !important;
