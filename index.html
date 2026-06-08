@@ -20,30 +20,97 @@
         }
     </script>
     
-    <style>
+<style>
         /* =============================================
-           1. CORE RESETS (PURE LUXURY DARK)
+           1. FIX FATAL: DROPDOWN HOVER BRIDGE
            ============================================= */
-        *, *::before, *::after { 
-            box-sizing: border-box !important; 
+        .relative.group {
+            position: relative !important;
+            padding-bottom: 20px !important; /* BRIDGE: Menutup celah kursor */
         }
 
-        body {
-            background-color: #000000 !important;
-            color: #ffffff !important;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+        .dropdown-menu {
+            z-index: 1000000 !important;
+            position: absolute !important;
+            top: 100% !important; /* Pas di bawah tombol */
+            right: 0 !important;
+            margin-top: 5px !important; /* Tambahkan jarak */
+            background: #050505 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+            padding: 0.5rem !important;
+            min-width: 220px !important;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease !important;
         }
 
-        /* Hilangkan sisa warna gradasi Tailwind di dalam JS */
-        .gradient-text, .text-cyan-400, [class*="text-cyan-"], [class*="text-blue-"], [class*="text-purple-"], [class*="text-pink-"], [class*="text-emerald-"] {
-            background: none !important;
-            -webkit-text-fill-color: #ffffff !important;
-            color: #ffffff !important;
+        /* Saat di-hover (di tombol profil ATAU di menu itu sendiri) */
+        .group:hover .dropdown-menu {
+            opacity: 1 !important;
+            visibility: visible !important;
         }
+
+        /* =============================================
+           2. NAVBAR & LAYOUT FIX
+           ============================================= */
+        body { background-color: #000000 !important; color: #ffffff !important; }
         
-        .text-slate-200, .text-slate-300, .text-slate-400 { color: rgba(255, 255, 255, 0.8) !important; }
-        .text-slate-500 { color: rgba(255, 255, 255, 0.5) !important; }
+        .glass-nav {
+            background: rgba(8, 8, 8, 0.8) !important;
+            backdrop-filter: blur(20px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .nav-container {
+            max-width: 72rem !important;
+            margin: 0 auto !important;
+            padding: 0 1.5rem !important;
+            height: 4.5rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        /* =============================================
+           3. CATEGORY CARD FIX (Tengah presisi)
+           ============================================= */
+        .category-card {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 1.5rem !important;
+            background: #0f0f0f !important;
+            border: 1px solid #1a1a1a !important;
+            border-radius: 20px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .category-card:hover { border-color: #333 !important; }
+
+        .category-card .w-12.h-12 {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 3.5rem !important;
+            height: 3.5rem !important;
+            border-radius: 50% !important;
+            margin: 0 auto 1rem auto !important;
+            background: #1a1a1a !important;
+        }
+
+        .category-card svg {
+            width: 1.5rem !important;
+            height: 1.5rem !important;
+            color: #ffffff !important;
+        }
+
+        /* Bersihkan sisa grid/wallpaper */
+        .hero-grid { display: none !important; }
+    </style>
 
         /* =============================================
            2. NAVBAR FIXED 
