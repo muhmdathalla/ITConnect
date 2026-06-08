@@ -3,176 +3,792 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITConnect - Marketplace Jasa IT Mahasiswa</title>
-    
+    <title>ITConnect — Marketplace Jasa IT Mahasiswa</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* ======================================================================
-           SECTION: GLOBAL RESET ENGINE
-           ======================================================================
-        */
-        * { 
-            box-sizing: border-box !important; 
-            -webkit-tap-highlight-color: transparent !important; 
-            margin: 0; 
-            padding: 0; 
+        /* =====================================================================
+           ITCONNECT — LIQUID GLASS iOS 26.5 DESIGN SYSTEM
+           Full enterprise-grade stylesheet. No external CSS file required.
+           ===================================================================== */
+
+        /* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────────── */
+        :root {
+            --bg-void:          #000000;
+            --bg-base:          #060608;
+            --bg-surface:       #0c0c10;
+            --bg-raised:        #111116;
+
+            /* Liquid Glass layers */
+            --glass-white:      rgba(255, 255, 255, 0.055);
+            --glass-white-md:   rgba(255, 255, 255, 0.09);
+            --glass-white-lg:   rgba(255, 255, 255, 0.13);
+            --glass-border:     rgba(255, 255, 255, 0.10);
+            --glass-border-md:  rgba(255, 255, 255, 0.16);
+            --glass-shine:      rgba(255, 255, 255, 0.22);
+
+            /* Brand spectrum */
+            --cyan-core:        #00d4ff;
+            --cyan-glow:        rgba(0, 212, 255, 0.35);
+            --cyan-dim:         rgba(0, 212, 255, 0.12);
+            --violet-core:      #8b5cf6;
+            --violet-glow:      rgba(139, 92, 246, 0.30);
+            --violet-dim:       rgba(139, 92, 246, 0.10);
+            --green-core:       #34d399;
+            --amber-core:       #fbbf24;
+            --red-core:         #f87171;
+
+            /* Text hierarchy */
+            --text-primary:     #f5f5f7;
+            --text-secondary:   #a1a1aa;
+            --text-muted:       #52525b;
+            --text-accent:      #00d4ff;
+
+            /* Motion tokens */
+            --ease-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth:      cubic-bezier(0.4, 0, 0.2, 1);
+            --dur-fast:         120ms;
+            --dur-mid:          240ms;
+            --dur-slow:         420ms;
+
+            /* Radius */
+            --r-sm:  10px;
+            --r-md:  16px;
+            --r-lg:  22px;
+            --r-xl:  28px;
+            --r-2xl: 36px;
         }
 
-        body { 
-            background-color: #000000 !important; 
-            color: #ffffff !important; 
-            font-family: 'Plus Jakarta Sans', sans-serif !important; 
-            overflow-x: hidden; 
+        /* ─── GLOBAL RESET ──────────────────────────────────────────────── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-void);
+            background-image:
+                radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0,212,255,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 110%, rgba(139,92,246,0.07) 0%, transparent 55%);
+            color: var(--text-primary);
+            font-family: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ======================================================================
-           SECTION: NAVBAR COMPONENT (TRADITIONAL ENTERPRISE LAYOUT)
-           ======================================================================
-        */
-        nav#navbar { 
-            z-index: 99999 !important; 
-            position: fixed !important; 
-            top: 0 !important; 
-            left: 0 !important; 
-            width: 100% !important; 
-            background: rgba(0,0,0,0.85) !important; 
-            backdrop-filter: blur(40px) !important; 
-            border-bottom: 1px solid #1a1a1a !important; 
-            height: 72px !important; 
-            display: flex !important; 
-            align-items: center !important; 
+        /* ─── NOISE TEXTURE OVERLAY ─────────────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
         }
 
-        .nav-container { 
-            max-width: 1200px !important; 
-            margin: 0 auto !important; 
-            padding: 0 24px !important; 
-            width: 100% !important; 
-            display: flex !important; 
-            align-items: center !important; 
-            justify-content: space-between !important; 
+        /* ─── NAVBAR — LIQUID GLASS TIER ────────────────────────────────── */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 68px;
+            z-index: 9999;
+            background: rgba(6, 6, 8, 0.72);
+            backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            transition: background var(--dur-mid) var(--ease-smooth),
+                        border-color var(--dur-mid) var(--ease-smooth);
+        }
+        #navbar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(0,212,255,0.25) 20%,
+                rgba(139,92,246,0.25) 80%,
+                transparent 100%
+            );
+        }
+        .nav-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 28px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
 
-        .nav-left { 
-            display: flex !important; 
-            align-items: center !important; 
-            gap: 32px !important; 
+        /* ─── BRAND IDENTITY ────────────────────────────────────────────── */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.7rem;
+            color: #000;
+            letter-spacing: 0.02em;
+            box-shadow: 0 0 18px rgba(0,212,255,0.35);
+            flex-shrink: 0;
+        }
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+        }
+        .brand-name span {
+            background: linear-gradient(90deg, #00d4ff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .nav-right { 
-            display: flex !important; 
-            align-items: center !important; 
-            gap: 16px !important; 
+        /* ─── NAV LINKS ─────────────────────────────────────────────────── */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 36px;
+        }
+        .nav-link {
+            padding: 7px 14px;
+            border-radius: var(--r-sm);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color var(--dur-fast) var(--ease-smooth),
+                        background var(--dur-fast) var(--ease-smooth);
+            letter-spacing: -0.01em;
+        }
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--glass-white);
+        }
+        .nav-link.active {
+            color: var(--cyan-core);
+            background: var(--cyan-dim);
         }
 
-        .nav-logo { 
-            font-weight: 900 !important; 
-            font-size: 1.4rem !important; 
-            color: #ffffff !important; 
-            text-decoration: none !important; 
+        /* ─── NAV RIGHT ZONE ────────────────────────────────────────────── */
+        #nav-right-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
-        .nav-link { 
-            color: #a0a0a0 !important; 
-            font-weight: 500 !important; 
-            transition: all 0.2s ease-in-out !important; 
-            text-decoration: none !important; 
+        /* ─── NAV BUTTONS (guest state) ─────────────────────────────────── */
+        .btn-ghost-nav {
+            padding: 8px 18px;
+            border-radius: var(--r-md);
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.84rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all var(--dur-fast) var(--ease-smooth);
+            letter-spacing: -0.01em;
+        }
+        .btn-ghost-nav:hover {
+            background: var(--glass-white);
+            color: var(--text-primary);
+            border-color: var(--glass-border-md);
+        }
+        .btn-primary-nav {
+            padding: 8px 20px;
+            border-radius: var(--r-md);
+            background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+            border: none;
+            color: #000;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all var(--dur-fast) var(--ease-smooth);
+            letter-spacing: -0.01em;
+            box-shadow: 0 0 20px rgba(0,212,255,0.25);
+        }
+        .btn-primary-nav:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 30px rgba(0,212,255,0.40);
         }
 
-        .nav-link:hover { 
-            color: #ffffff !important; 
+        /* ─── PROFILE BUTTON (logged-in state) ──────────────────────────── */
+        .profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px 6px 6px;
+            border-radius: 50px;
+            background: var(--glass-white);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-smooth);
+            position: relative;
+        }
+        .profile-pill:hover {
+            background: var(--glass-white-md);
+            border-color: var(--glass-border-md);
+        }
+        .profile-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #000;
+            flex-shrink: 0;
+        }
+        .profile-name {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .profile-chevron {
+            width: 14px;
+            height: 14px;
+            color: var(--text-muted);
+            transition: transform var(--dur-fast) var(--ease-spring);
+            flex-shrink: 0;
+        }
+        .profile-pill.open .profile-chevron {
+            transform: rotate(180deg);
         }
 
-        /* ======================================================================
-           SECTION: DROPDOWN & INTERACTION SYSTEM
-           ======================================================================
-        */
-        .relative.group { 
-            position: relative !important; 
+        /* ─── DROPDOWN MENU — LIQUID GLASS ──────────────────────────────── */
+        #profile-dropdown {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            width: 260px;
+            background: rgba(10, 10, 14, 0.88);
+            backdrop-filter: blur(48px) saturate(160%);
+            -webkit-backdrop-filter: blur(48px) saturate(160%);
+            border: 1px solid var(--glass-border-md);
+            border-radius: var(--r-xl);
+            padding: 10px;
+            box-shadow:
+                0 24px 64px rgba(0,0,0,0.85),
+                0 0 0 1px rgba(255,255,255,0.04) inset,
+                0 1px 0 rgba(255,255,255,0.1) inset;
+            display: none;
+            z-index: 99999;
+            transform-origin: top right;
+            animation: dropdown-reveal 0.22s var(--ease-spring) both;
         }
-
-        .dropdown-menu {
-            z-index: 999999 !important; 
-            position: absolute !important; 
-            top: 100% !important; 
-            right: 0 !important;
-            margin-top: 15px !important; 
-            background: #050505 !important; 
-            border: 1px solid #222 !important;
-            border-radius: 16px !important; 
-            padding: 8px !important; 
-            width: 240px !important; 
-            box-shadow: 0 20px 40px rgba(0,0,0,1) !important; 
-            display: none !important;
+        #profile-dropdown.active {
+            display: block;
         }
-
-        .dropdown-menu.active { 
-            display: block !important; 
+        @keyframes dropdown-reveal {
+            from { opacity: 0; transform: scale(0.92) translateY(-8px); }
+            to   { opacity: 1; transform: scale(1)    translateY(0);    }
         }
-
+        .dropdown-header {
+            padding: 12px 14px 10px;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 8px;
+        }
+        .dropdown-username {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .dropdown-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .role-mahasiswa { background: var(--cyan-dim); color: var(--cyan-core); border: 1px solid rgba(0,212,255,0.2); }
+        .role-klien { background: var(--violet-dim); color: var(--violet-core); border: 1px solid rgba(139,92,246,0.2); }
         .dropdown-item {
-            display: flex !important; 
-            align-items: center !important; 
-            gap: 12px !important; 
-            padding: 12px 16px !important;
-            color: #ffffff !important; 
-            background: transparent !important; 
-            border-radius: 12px !important;
-            width: calc(100% - 12px) !important; 
-            margin: 4px 6px !important; 
-            transition: 0.2s !important; 
-            cursor: pointer !important;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: var(--r-md);
+            color: var(--text-secondary);
+            font-size: 0.84rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-smooth);
+            border: none;
+            background: none;
+            width: 100%;
+            font-family: inherit;
+            letter-spacing: -0.01em;
+        }
+        .dropdown-item:hover {
+            background: var(--glass-white-md);
+            color: var(--text-primary);
+        }
+        .dropdown-item-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .icon-bg-cyan   { background: var(--cyan-dim);   }
+        .icon-bg-violet { background: var(--violet-dim); }
+        .icon-bg-green  { background: rgba(52,211,153,0.1); }
+        .icon-bg-amber  { background: rgba(251,191,36,0.1);  }
+        .icon-bg-red    { background: rgba(248,113,113,0.1); }
+        .dropdown-divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin: 8px 0;
+        }
+        .dropdown-item.danger:hover {
+            background: rgba(248,113,113,0.1);
+            color: var(--red-core);
         }
 
-        .dropdown-item:hover { 
-            background: #1a1a1a !important; 
+        /* ─── NOTIFICATION BADGE ────────────────────────────────────────── */
+        .notif-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            min-width: 16px;
+            height: 16px;
+            background: var(--red-core);
+            border-radius: 50px;
+            border: 2px solid var(--bg-void);
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px;
         }
 
-        /* ======================================================================
-           SECTION: CARD UI (LIQUID GLASS 26.5)
-           ======================================================================
-        */
+        /* ─── ICON BUTTON ───────────────────────────────────────────────── */
+        .icon-btn {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            border-radius: var(--r-md);
+            background: var(--glass-white);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-smooth);
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .icon-btn:hover {
+            background: var(--glass-white-md);
+            border-color: var(--glass-border-md);
+            color: var(--text-primary);
+        }
+
+        /* ─── MAIN CONTENT AREA ─────────────────────────────────────────── */
+        #app-root {
+            padding-top: 96px;
+            padding-bottom: 60px;
+            max-width: 1240px;
+            margin: 0 auto;
+            width: 100%;
+            padding-left: 28px;
+            padding-right: 28px;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── GLASS CARD SYSTEM ─────────────────────────────────────────── */
         .glass-card {
-            background: #0a0a0a !important; 
-            border: 1px solid #1a1a1a !important; 
-            border-radius: 20px !important;
-            padding: 24px !important; 
-            transition: transform 0.3s ease !important;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            transition: border-color var(--dur-mid) var(--ease-smooth),
+                        box-shadow var(--dur-mid) var(--ease-smooth);
+        }
+        .glass-card:hover {
+            border-color: var(--glass-border-md);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+        }
+        .glass-card-inset {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--r-lg);
         }
 
-        /* (Lanjutkan expansion style untuk setiap komponen UI lu di sini...) */
+        /* ─── FORM SYSTEM ───────────────────────────────────────────────── */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+        .form-input {
+            background: var(--glass-white);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--r-md);
+            padding: 13px 16px;
+            width: 100%;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            outline: none;
+            transition: all var(--dur-fast) var(--ease-smooth);
+        }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-input:focus {
+            border-color: rgba(0,212,255,0.4);
+            background: var(--glass-white-md);
+            box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+        }
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2352525b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* ─── BUTTON SYSTEM ─────────────────────────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 22px;
+            border-radius: var(--r-md);
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease-smooth);
+            letter-spacing: -0.01em;
+            border: none;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+            color: #000;
+            box-shadow: 0 0 24px rgba(0,212,255,0.20);
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 36px rgba(0,212,255,0.35);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-secondary {
+            background: var(--glass-white);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            background: var(--glass-white-md);
+            border-color: var(--glass-border-md);
+        }
+        .btn-violet {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(139,92,246,0.20);
+        }
+        .btn-violet:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 36px rgba(139,92,246,0.35);
+        }
+        .btn-danger {
+            background: rgba(248,113,113,0.12);
+            border: 1px solid rgba(248,113,113,0.2);
+            color: var(--red-core);
+        }
+        .btn-danger:hover { background: rgba(248,113,113,0.20); }
+        .btn-sm { padding: 8px 16px; font-size: 0.82rem; border-radius: var(--r-sm); }
+        .btn-lg { padding: 14px 28px; font-size: 0.95rem; border-radius: var(--r-lg); }
+        .btn-full { width: 100%; }
+
+        /* ─── BADGE / TAG SYSTEM ────────────────────────────────────────── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .badge-cyan   { background: var(--cyan-dim);              color: var(--cyan-core);   border: 1px solid rgba(0,212,255,0.15);  }
+        .badge-violet { background: var(--violet-dim);            color: var(--violet-core); border: 1px solid rgba(139,92,246,0.15); }
+        .badge-green  { background: rgba(52,211,153,0.10);        color: var(--green-core);  border: 1px solid rgba(52,211,153,0.15); }
+        .badge-amber  { background: rgba(251,191,36,0.10);        color: var(--amber-core);  border: 1px solid rgba(251,191,36,0.15); }
+        .badge-red    { background: rgba(248,113,113,0.10);       color: var(--red-core);    border: 1px solid rgba(248,113,113,0.15); }
+        .badge-gray   { background: rgba(82,82,91,0.25);          color: var(--text-muted);  border: 1px solid rgba(82,82,91,0.2);    }
+
+        /* ─── STATUS INDICATOR ──────────────────────────────────────────── */
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .status-online  { background: var(--green-core); box-shadow: 0 0 6px rgba(52,211,153,0.6); }
+        .status-idle    { background: var(--amber-core); box-shadow: 0 0 6px rgba(251,191,36,0.6); }
+        .status-offline { background: var(--text-muted); }
+
+        /* ─── DIVIDERS ──────────────────────────────────────────────────── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent, var(--glass-border), transparent);
+        }
+
+        /* ─── LOADING SKELETON ──────────────────────────────────────────── */
+        .skeleton {
+            background: linear-gradient(90deg,
+                var(--glass-white) 25%,
+                var(--glass-white-md) 50%,
+                var(--glass-white) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.6s infinite;
+            border-radius: var(--r-sm);
+        }
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ─── GLOW EFFECTS ──────────────────────────────────────────────── */
+        .glow-cyan   { box-shadow: 0 0 30px rgba(0,212,255,0.15); }
+        .glow-violet { box-shadow: 0 0 30px rgba(139,92,246,0.15); }
+
+        /* ─── PAGE FADE IN ──────────────────────────────────────────────── */
+        .page-enter {
+            animation: page-fade 0.3s var(--ease-smooth) both;
+        }
+        @keyframes page-fade {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0);    }
+        }
+
+        /* ─── TOAST NOTIFICATIONS ───────────────────────────────────────── */
+        #toast-container {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 18px;
+            border-radius: var(--r-lg);
+            background: rgba(10,10,14,0.92);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid var(--glass-border-md);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            min-width: 280px;
+            pointer-events: all;
+            animation: toast-in 0.28s var(--ease-spring) both;
+        }
+        .toast.hide { animation: toast-out 0.2s var(--ease-smooth) both; }
+        @keyframes toast-in  { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes toast-out { to   { opacity:0; transform:translateX(24px); } }
+
+        /* ─── FOOTER ────────────────────────────────────────────────────── */
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--glass-border);
+            padding: 28px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--dur-fast);
+        }
+        footer a:hover { color: var(--text-secondary); }
+
+        /* ─── SCROLLBAR ─────────────────────────────────────────────────── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+        /* ─── RESPONSIVE GUARDS ─────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            #app-root { padding-left: 18px; padding-right: 18px; }
+            .brand-name { font-size: 1.1rem; }
+        }
+        @media (max-width: 480px) {
+            .profile-name { display: none; }
+            #toast-container { left: 18px; right: 18px; bottom: 18px; }
+            .toast { min-width: unset; }
+        }
+
+        /* ─── UTILITY SPACERS ───────────────────────────────────────────── */
+        .mt-4  { margin-top: 4px;   } .mb-4  { margin-bottom: 4px;   }
+        .mt-8  { margin-top: 8px;   } .mb-8  { margin-bottom: 8px;   }
+        .mt-12 { margin-top: 12px;  } .mb-12 { margin-bottom: 12px;  }
+        .mt-16 { margin-top: 16px;  } .mb-16 { margin-bottom: 16px;  }
+        .mt-20 { margin-top: 20px;  } .mb-20 { margin-bottom: 20px;  }
+        .mt-24 { margin-top: 24px;  } .mb-24 { margin-bottom: 24px;  }
+        .mt-32 { margin-top: 32px;  } .mb-32 { margin-bottom: 32px;  }
+        .mt-40 { margin-top: 40px;  } .mb-40 { margin-bottom: 40px;  }
+        .mt-48 { margin-top: 48px;  } .mb-48 { margin-bottom: 48px;  }
+        .gap-4  { gap: 4px;  } .gap-8  { gap: 8px;  } .gap-12 { gap: 12px; }
+        .gap-16 { gap: 16px; } .gap-20 { gap: 20px; } .gap-24 { gap: 24px; }
+        .p-12 { padding: 12px; } .p-16 { padding: 16px; }
+        .p-20 { padding: 20px; } .p-24 { padding: 24px; }
+        .p-28 { padding: 28px; } .p-32 { padding: 32px; }
+
     </style>
 </head>
 <body>
 
+    <!-- ===================================================================
+         NAVBAR — LIQUID GLASS ENTERPRISE
+         =================================================================== -->
     <nav id="navbar">
-        <div class="nav-container">
-            <div class="nav-left">
-                <a href="#/" class="nav-logo">ITConnect</a>
-                <div class="hidden md:flex gap-6">
-                    <a href="#/" class="nav-link">Dashboard</a>
+        <div class="nav-inner">
+
+            <!-- LEFT: Brand + Nav Links -->
+            <div style="display:flex; align-items:center; flex:1; min-width:0;">
+                <a href="#/" class="brand">
+                    <div class="brand-icon">IT</div>
+                    <span class="brand-name">IT<span>Connect</span></span>
+                </a>
+                <nav class="nav-links hidden md:flex">
+                    <a href="#/" class="nav-link active">Dashboard</a>
                     <a href="#/browse" class="nav-link">Proyek</a>
                     <a href="#/messages" class="nav-link">Pesan</a>
                     <a href="#/settings" class="nav-link">Pengaturan</a>
-                </div>
+                </nav>
             </div>
-            <div class="nav-right" id="nav-right-content">
-                </div>
+
+            <!-- RIGHT: Auth / Profile Zone -->
+            <div id="nav-right-content">
+                <!-- JS will render either guest buttons OR profile pill here -->
+            </div>
+
         </div>
     </nav>
-    <main id="app-root" style="padding-top: 120px; padding-bottom: 50px; max-width: 1200px; margin: 0 auto;"></main>
 
+    <!-- ===================================================================
+         MAIN APP ROOT
+         =================================================================== -->
+    <main id="app-root"></main>
+
+    <!-- ===================================================================
+         TOAST CONTAINER
+         =================================================================== -->
+    <div id="toast-container"></div>
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
     <footer>
-        <p>&copy; 2026 ITConnect. All rights reserved.</p>
+        <div style="max-width:1240px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div class="brand-icon" style="width:24px;height:24px;font-size:0.6rem;">IT</div>
+                <span style="font-weight:600; color:var(--text-muted);">ITConnect</span>
+            </div>
+            <p>&copy; 2026 ITConnect Enterprise. All rights reserved.</p>
+            <div style="display:flex; gap:20px;">
+                <a href="#/about">Tentang</a>
+                <a href="#/privacy">Privasi</a>
+                <a href="#/terms">Syarat</a>
+            </div>
+        </div>
     </footer>
 
+    <!-- ===================================================================
+         SCRIPTS
+         =================================================================== -->
     <script src="store.js"></script>
     <script src="ui.js"></script>
     <script src="home.js"></script>
@@ -188,21 +804,217 @@
     <script src="notifications.js"></script>
     <script src="settings.js"></script>
     <script src="app.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => { 
-            App.init(); 
-            
-            /* DROPDOWN CLICK HANDLER */
-            document.addEventListener('click', (e) => {
-                const btn = document.getElementById('profile-btn');
-                const menu = document.getElementById('profile-dropdown');
-                if(btn && btn.contains(e.target)) menu.classList.toggle('active');
-                else if(menu && !menu.contains(e.target)) menu.classList.remove('active');
-            });
 
-            setInterval(() => lucide.createIcons(), 1000);
+    <script>
+    /* ========================================================================
+       ITCONNECT — RUNTIME BOOTSTRAP
+       Liquid Glass OS 26.5 | Navbar Controller | Dropdown Engine | Toast System
+       ======================================================================== */
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        /* ------------------------------------------------------------------
+           1. APP INIT
+        ------------------------------------------------------------------ */
+        if (typeof App !== 'undefined') App.init();
+
+        /* ------------------------------------------------------------------
+           2. NAVBAR RENDER ENGINE
+           Renders guest buttons OR profile pill based on auth state.
+           Call `ITConnect.renderNav()` after login/logout to refresh.
+        ------------------------------------------------------------------ */
+        window.ITConnect = window.ITConnect || {};
+
+        ITConnect.renderNav = function() {
+            const container = document.getElementById('nav-right-content');
+            if (!container) return;
+
+            const user = (typeof Store !== 'undefined') ? Store.getUser() : null;
+
+            if (!user) {
+                /* ── GUEST STATE ── */
+                container.innerHTML = `
+                    <button class="btn-ghost-nav" onclick="App.navigate('/login')">Masuk</button>
+                    <button class="btn-primary-nav" onclick="App.navigate('/register')">Daftar Gratis</button>
+                `;
+            } else {
+                /* ── LOGGED-IN STATE ── */
+                const initials = (user.name || 'U').slice(0, 2).toUpperCase();
+                const roleClass = user.role === 'mahasiswa' ? 'role-mahasiswa' : 'role-klien';
+                const roleLabel = user.role === 'mahasiswa' ? '🎓 Mahasiswa' : '💼 Klien';
+                const notifCount = (typeof Store !== 'undefined' && Store.getUnreadCount)
+                    ? Store.getUnreadCount() : 0;
+
+                container.innerHTML = `
+                    <!-- Notification Icon Button -->
+                    <div style="position:relative;">
+                        <button class="icon-btn" onclick="App.navigate('/notifications')" title="Notifikasi">
+                            <i data-lucide="bell" style="width:16px;height:16px;"></i>
+                        </button>
+                        ${notifCount > 0 ? `<span class="notif-badge">${notifCount}</span>` : ''}
+                    </div>
+
+                    <!-- Profile Pill with Dropdown -->
+                    <div style="position:relative;">
+                        <div class="profile-pill" id="profile-btn" role="button" aria-expanded="false" aria-haspopup="true">
+                            <div class="profile-avatar">${initials}</div>
+                            <span class="profile-name">${user.name || 'Pengguna'}</span>
+                            <svg class="profile-chevron" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </div>
+
+                        <!-- Dropdown Menu -->
+                        <div id="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-username">${user.name || 'Pengguna'}</div>
+                                <div class="${roleClass} dropdown-role-badge">${roleLabel}</div>
+                            </div>
+
+                            <a href="#/profile" class="dropdown-item">
+                                <div class="dropdown-item-icon icon-bg-cyan">
+                                    <i data-lucide="user" style="width:14px;height:14px;color:var(--cyan-core);"></i>
+                                </div>
+                                Profil Saya
+                            </a>
+                            <a href="#/dashboard" class="dropdown-item">
+                                <div class="dropdown-item-icon icon-bg-violet">
+                                    <i data-lucide="layout-dashboard" style="width:14px;height:14px;color:var(--violet-core);"></i>
+                                </div>
+                                Dashboard
+                            </a>
+                            <a href="#/messages" class="dropdown-item">
+                                <div class="dropdown-item-icon icon-bg-cyan">
+                                    <i data-lucide="message-square" style="width:14px;height:14px;color:var(--cyan-core);"></i>
+                                </div>
+                                Pesan
+                            </a>
+                            <a href="#/notifications" class="dropdown-item">
+                                <div class="dropdown-item-icon icon-bg-amber">
+                                    <i data-lucide="bell" style="width:14px;height:14px;color:var(--amber-core);"></i>
+                                </div>
+                                Notifikasi
+                                ${notifCount > 0 ? `<span class="badge badge-red" style="margin-left:auto;">${notifCount}</span>` : ''}
+                            </a>
+                            <a href="#/settings" class="dropdown-item">
+                                <div class="dropdown-item-icon" style="background:rgba(82,82,91,0.2);">
+                                    <i data-lucide="settings" style="width:14px;height:14px;color:var(--text-secondary);"></i>
+                                </div>
+                                Pengaturan
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <button class="dropdown-item danger" onclick="ITConnect.logout()">
+                                <div class="dropdown-item-icon icon-bg-red">
+                                    <i data-lucide="log-out" style="width:14px;height:14px;color:var(--red-core);"></i>
+                                </div>
+                                Keluar
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                /* Re-init Lucide icons after dynamic render */
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+        };
+
+        /* ------------------------------------------------------------------
+           3. LOGOUT HANDLER
+        ------------------------------------------------------------------ */
+        ITConnect.logout = function() {
+            if (typeof Store !== 'undefined') Store.logout();
+            ITConnect.renderNav();
+            if (typeof App !== 'undefined') App.navigate('/');
+            ITConnect.showToast('Berhasil keluar. Sampai jumpa! 👋', 'success');
+        };
+
+        /* ------------------------------------------------------------------
+           4. DROPDOWN CLICK TOGGLE ENGINE
+           Click #profile-btn → toggle. Click outside → close.
+        ------------------------------------------------------------------ */
+        document.addEventListener('click', (e) => {
+            const btn  = document.getElementById('profile-btn');
+            const menu = document.getElementById('profile-dropdown');
+            if (!btn || !menu) return;
+
+            if (btn.contains(e.target)) {
+                const isOpen = menu.classList.contains('active');
+                menu.classList.toggle('active');
+                btn.classList.toggle('open');
+                btn.setAttribute('aria-expanded', String(!isOpen));
+            } else if (!menu.contains(e.target)) {
+                menu.classList.remove('active');
+                btn.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
         });
+
+        /* ESC to close dropdown */
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const menu = document.getElementById('profile-dropdown');
+                const btn  = document.getElementById('profile-btn');
+                if (menu) menu.classList.remove('active');
+                if (btn)  btn.classList.remove('open');
+            }
+        });
+
+        /* ------------------------------------------------------------------
+           5. TOAST NOTIFICATION SYSTEM
+           Usage: ITConnect.showToast('Message', 'success' | 'error' | 'info')
+        ------------------------------------------------------------------ */
+        ITConnect.showToast = function(message, type = 'info', duration = 3500) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const colors = {
+                success: { icon: 'check-circle', color: 'var(--green-core)' },
+                error:   { icon: 'x-circle',     color: 'var(--red-core)'   },
+                info:    { icon: 'info',          color: 'var(--cyan-core)'  },
+                warning: { icon: 'alert-triangle',color: 'var(--amber-core)' },
+            };
+            const cfg = colors[type] || colors.info;
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i data-lucide="${cfg.icon}" style="width:16px;height:16px;color:${cfg.color};flex-shrink:0;"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 220);
+            }, duration);
+        };
+
+        /* ------------------------------------------------------------------
+           6. NAV LINK ACTIVE STATE SYNC
+        ------------------------------------------------------------------ */
+        function syncNavActive() {
+            const hash = window.location.hash || '#/';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                link.classList.toggle('active', href === hash || (href === '#/' && hash === '#/'));
+            });
+        }
+        window.addEventListener('hashchange', syncNavActive);
+        syncNavActive();
+
+        /* ------------------------------------------------------------------
+           7. INITIAL NAV RENDER + LUCIDE ICONS POLL
+        ------------------------------------------------------------------ */
+        ITConnect.renderNav();
+        setInterval(() => {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }, 800);
+
+    });
     </script>
 </body>
 </html>
