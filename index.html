@@ -22,53 +22,31 @@
     </script>
     
     <style>
-        :root {
-            --bg-body: #000000;
-            --text-body: #ffffff;
-            --glass-nav: rgba(0, 0, 0, 0.75);
-            --glass-card: rgba(15, 15, 15, 0.6);
-            --glass-border-top: rgba(255, 255, 255, 0.22);
-            --glass-border-left: rgba(255, 255, 255, 0.12);
-            --glass-border-flat: rgba(255, 255, 255, 0.06);
-            --input-fill: rgba(255, 255, 255, 0.05);
-            --input-border: rgba(255, 255, 255, 0.15);
-            --shadow-lux: 0 30px 60px rgba(0, 0, 0, 0.8);
+        /* =============================================
+           1. CORE RESETS (PURE DARK MODE)
+           ============================================= */
+        *, *::before, *::after { 
+            box-sizing: border-box !important; 
         }
-
-        body.light-mode {
-            --bg-body: #ffffff;
-            --text-body: #000000;
-            --glass-nav: rgba(255, 255, 255, 0.7);
-            --glass-card: rgba(255, 255, 255, 0.55);
-            --glass-border-top: rgba(255, 255, 255, 1);
-            --glass-border-left: rgba(255, 255, 255, 0.8);
-            --glass-border-flat: rgba(0, 0, 0, 0.06);
-            --input-fill: rgba(0, 0, 0, 0.02);
-            --input-border: rgba(0, 0, 0, 0.14);
-            --shadow-lux: 0 20px 40px rgba(0, 0, 0, 0.04);
-        }
-
-        *, *::before, *::after { box-sizing: border-box !important; }
 
         body {
-            background-color: var(--bg-body) !important;
-            color: var(--text-body) !important;
-            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: #000000 !important;
+            color: #ffffff !important;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Kebiri Total Gradasi Warna Menjadi Monokrom */
-        .gradient-text, .text-cyan-400, [class*="text-cyan-"], [class*="text-blue-"], [class*="text-purple-"] {
+        /* Hilangkan sisa warna warni bawaan JS, paksa monokrom elegan */
+        .gradient-text, .text-cyan-400, .text-blue-400, .text-purple-400 {
             background: none !important;
-            -webkit-text-fill-color: currentcolor !important;
-            color: inherit !important;
+            -webkit-text-fill-color: #ffffff !important;
+            color: #ffffff !important;
         }
-
-        /* Fix Total Pewarnaan Typography DOM Default */
-        h1, h2, h3, h4, h5, h6 { color: var(--text-body) !important; }
-        .text-white { color: var(--text-body) !important; }
+        .bg-cyan-500\/10, .bg-blue-500\/10 { background-color: rgba(255, 255, 255, 0.05) !important; }
+        .border-cyan-500\/30, .border-blue-500\/30 { border-color: rgba(255, 255, 255, 0.15) !important; }
 
         /* =============================================
-           NAVBAR STRUCTURE FIXED (PIXEL PERFECT)
+           2. NAVBAR & DROPDOWN MENU (FIX OVERLAP)
            ============================================= */
         nav#navbar {
             z-index: 99999 !important;
@@ -76,13 +54,14 @@
             top: 0 !important;
             left: 0 !important;
             width: 100% !important;
-            display: block !important;
-            background: var(--glass-nav) !important;
+        }
+
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.65) !important;
             backdrop-filter: blur(40px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-            border-bottom: 1px solid var(--glass-border-flat) !important;
-            box-shadow: var(--shadow-lux) !important;
-            transition: background 0.4s ease !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
         }
 
         .nav-container {
@@ -99,65 +78,73 @@
         .nav-logo {
             display: flex !important;
             align-items: center !important;
-            gap: 0.5rem !important;
-            font-weight: 900 !important;
+            gap: 0.6rem !important;
+            font-weight: 800 !important;
             font-size: 1.25rem !important;
             letter-spacing: -0.03em !important;
+            color: #ffffff !important;
             text-decoration: none !important;
-            color: var(--text-body) !important;
         }
 
         .nav-link {
-            color: var(--text-body) !important;
-            opacity: 0.8;
-            transition: opacity 0.25s ease !important;
+            color: #e2e8f0 !important;
+            font-weight: 500 !important;
+            transition: color 0.3s ease !important;
         }
-        .nav-link:hover { opacity: 1; }
+        .nav-link:hover { color: #ffffff !important; }
+
+        /* FIX FATAL: Dropdown Menu Anti Tembus Pandang */
+        .dropdown-menu {
+            z-index: 100000 !important;
+            background: rgba(18, 18, 18, 0.95) !important; /* Dibuat sangat pekat */
+            backdrop-filter: blur(48px) saturate(200%) !important;
+            -webkit-backdrop-filter: blur(48px) saturate(200%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9) !important;
+            padding: 0.5rem !important;
+            margin-top: 0.5rem !important;
+        }
+
+        .dropdown-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 12px 16px !important;
+            color: #f8fafc !important;
+            background: transparent !important;
+            border-radius: 12px !important;
+            width: calc(100% - 8px) !important;
+            margin: 4px !important;
+            font-weight: 500 !important;
+            transition: background 0.2s ease !important;
+        }
+        .dropdown-item:hover { background: rgba(255, 255, 255, 0.1) !important; }
 
         /* =============================================
-           MAXIMUM LIQUID GLASS CORE STRUCTURE
+           3. MAXIMUM LIQUID GLASS CARDS
            ============================================= */
-        .glass-card, .project-card, .stat-card, .dropdown-menu, .category-card {
-            background: var(--glass-card) !important;
-            backdrop-filter: blur(32px) saturate(160%) !important;
-            -webkit-backdrop-filter: blur(32px) saturate(160%) !important;
-            border-top: 1px solid var(--glass-border-top) !important;
-            border-left: 1px solid var(--glass-border-left) !important;
-            border-right: 1px solid var(--glass-border-flat) !important;
-            border-bottom: 1px solid var(--glass-border-flat) !important;
-            box-shadow: var(--shadow-lux) !important;
+        .glass-card, .project-card, .stat-card, .category-card {
+            background: rgba(20, 20, 20, 0.45) !important;
+            backdrop-filter: blur(32px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.18) !important; /* Highlight Kaca Khas Apple */
             border-radius: 24px !important;
-            padding: 1.75rem !important;
-            overflow: hidden !important;
-            transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            padding: 1.5rem !important; /* Ruang bernapas */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+            overflow: hidden !important; /* Cegah teks keluar kotak */
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease !important;
         }
 
-        .dropdown-menu { z-index: 100000 !important; padding: 0.5rem !important; border-radius: 18px !important; }
-
-        .project-card:hover, .category-card:hover, .stat-card:hover {
-            background: rgba(255, 255, 255, 0.08) !important;
+        .glass-card:hover, .project-card:hover, .stat-card:hover {
+            background: rgba(30, 30, 30, 0.6) !important;
             transform: translateY(-5px) !important;
-        }
-        body.light-mode .project-card:hover, 
-        body.light-mode .category-card:hover, 
-        body.light-mode .stat-card:hover {
-            background: rgba(0, 0, 0, 0.03) !important;
-        }
-
-        /* Fix Total Masalah Teks Pudar Di Samping Kaca */
-        .text-slate-400, .text-slate-300, .text-slate-200 {
-            color: var(--text-body) !important;
-            opacity: 0.75;
-        }
-        .text-slate-500 {
-            color: var(--text-body) !important;
-            opacity: 0.55;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8) !important;
         }
 
         /* =============================================
-           CATEGORY CARD DESIGN PRESISI INDEPENDEN
+           4. CATEGORY CARD (GRID/FLEX FIX)
            ============================================= */
         .category-card {
             display: flex !important;
@@ -172,80 +159,80 @@
             align-items: center !important;
             justify-content: center !important;
             flex-shrink: 0 !important;
-            width: 3.75rem !important;
-            height: 3.75rem !important;
+            width: 4rem !important;
+            height: 4rem !important;
             border-radius: 50% !important;
-            margin: 0 auto 1rem auto !important;
-            border: 1px solid var(--input-border) !important;
-            background: transparent !important;
+            margin: 0 auto 1.25rem auto !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
-        .category-card:hover .w-12.h-12 { transform: scale(1.1) !important; }
 
-        .category-card svg, .category-card i, .category-card [class*="w-12"] svg {
+        .category-card:hover .w-12.h-12 {
+            transform: scale(1.1) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .category-card svg, .category-card i {
             display: block !important;
             margin: auto !important;
             width: 1.5rem !important;
             height: 1.5rem !important;
-            color: var(--text-body) !important;
-            stroke: var(--text-body) !important;
+            color: #ffffff !important;
+            stroke: #ffffff !important;
         }
 
         /* =============================================
-           CONTROLS FIXES (BUTTONS & INPUT FIELDS)
+           5. BUTTONS & INPUTS (PURE PROFESSIONAL)
            ============================================= */
         .btn-primary {
-            background: var(--text-body) !important;
-            color: var(--bg-body) !important;
-            border: 1px solid var(--text-body) !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: none !important;
             font-weight: 700 !important;
             border-radius: 14px !important;
-            padding: 0.75rem 1.5rem !important;
-            transition: var(--transition-smooth) !important;
+            padding: 0.8rem 1.5rem !important;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.3s ease !important;
         }
         .btn-primary:hover {
-            background: transparent !important;
-            color: var(--text-body) !important;
+            background: #e2e8f0 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
         }
 
         .btn-secondary {
-            background: var(--input-fill) !important;
-            color: var(--text-body) !important;
-            border: 1px solid var(--input-border) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 14px !important;
-            padding: 0.75rem 1.5rem !important;
+            padding: 0.8rem 1.5rem !important;
+            transition: all 0.3s ease !important;
         }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15) !important; }
 
-        /* Input Form Anti-Clash System */
         .form-input {
             width: 100% !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #ffffff !important;
             border-radius: 14px !important;
-            padding: 0.8rem 1.25rem !important;
-            background: var(--input-fill) !important;
-            border: 1px solid var(--input-border) !important;
-            color: var(--text-body) !important;
+            padding: 0.85rem 1.25rem !important;
+            transition: all 0.3s ease !important;
         }
-        .form-input:focus { outline: 1px solid var(--text-body) !important; }
-        .form-input::placeholder { color: var(--text-body) !important; opacity: 0.4; }
-
-        .dropdown-item {
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
-            padding: 11px 16px !important;
-            color: var(--text-body) !important;
-            background: transparent !important;
-            border-radius: 12px !important;
-            width: calc(100% - 12px) !important;
-            margin: 4px 6px !important;
-            transition: background 0.2s ease !important;
+        .form-input:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            outline: none !important;
         }
-        .dropdown-item:hover { background: rgba(255, 255, 255, 0.1) !important; }
-        body.light-mode .dropdown-item:hover { background: rgba(0, 0, 0, 0.05) !important; }
+        .form-input::placeholder { color: rgba(255, 255, 255, 0.4) !important; }
 
-        /* Cleanup system utilities */
-        .hero-grid { display: none !important; }
-        .fade-in { animation: iosPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        /* =============================================
+           6. MICROINTERACTIONS & CLEANUP
+           ============================================= */
+        .hero-grid { display: none !important; } /* Buang grid berisik */
+        
+        .fade-in { animation: iosPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes iosPop {
             from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
             to   { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -254,17 +241,15 @@
     
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-navy-950 text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200 transition-colors duration-700">
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-white/20 selection:text-white">
 
-    <div class="hero-grid"></div>
-
-    <nav id="navbar" class="fixed top-0 w-full glass-nav transition-all duration-500"></nav>
+    <nav id="navbar" class="glass-nav transition-all duration-500"></nav>
 
     <main id="app-root" class="flex-grow pt-24 pb-12"></main>
 
     <div id="toast-container" class="fixed bottom-6 right-6 z-[60] flex flex-col gap-3"></div>
     
-    <div id="modal-overlay" class="fixed inset-0 bg-navy-950/40 backdrop-blur-md z-[70] hidden items-center justify-center p-4 transition-all duration-300">
+    <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[70] hidden items-center justify-center p-4 transition-all duration-300">
         <div id="modal-body" class="w-full max-w-lg transform scale-95 opacity-0 transition-all duration-300"></div>
     </div>
 
@@ -286,36 +271,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const originalRenderNav = UI.renderNav;
-            UI.renderNav = function() {
-                originalRenderNav.apply(this, arguments);
-                
-                const navRight = document.querySelector('.nav-container .flex.items-center.gap-2') || 
-                                 document.querySelector('.nav-container .flex.items-center.gap-3');
-                
-                if (navRight && !document.getElementById('theme-toggle-btn')) {
-                    const btn = document.createElement('button');
-                    btn.id = 'theme-toggle-btn';
-                    btn.className = 'w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/20 border border-white/10 transition-all backdrop-blur-md ml-1 sm:ml-2';
-                    
-                    const isLight = document.body.classList.contains('light-mode');
-                    btn.innerHTML = isLight ? '<i data-lucide="sun" class="w-4 h-4 text-amber-500"></i>' : '<i data-lucide="moon" class="w-4 h-4 text-cyan-400"></i>';
-                    
-                    btn.onclick = () => {
-                        document.body.classList.toggle('light-mode');
-                        const nowLight = document.body.classList.contains('light-mode');
-                        btn.innerHTML = nowLight ? '<i data-lucide="sun" class="w-4 h-4 text-amber-500 drop-shadow-md"></i>' : '<i data-lucide="moon" class="w-4 h-4 text-cyan-400 drop-shadow-md"></i>';
-                        btn.style.borderColor = nowLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
-                        btn.style.background = nowLight ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)';
-                        lucide.createIcons({nodes: [btn]});
-                        localStorage.setItem('itconnect_theme', nowLight ? 'light' : 'dark');
-                    };
-                    
-                    navRight.insertBefore(btn, navRight.firstChild);
-                    lucide.createIcons({nodes: [btn]});
-                }
-            };
-
+            // Modal Animation Injection
             const originalModal = UI.modal;
             UI.modal = function(content, opts) {
                 originalModal.apply(this, arguments);
@@ -334,10 +290,7 @@
                 }, 300);
             };
 
-            if (localStorage.getItem('itconnect_theme') === 'light') {
-                document.body.classList.add('light-mode');
-            }
-
+            // Start the App
             App.init();
         });
     </script>
