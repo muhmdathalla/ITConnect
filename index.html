@@ -71,14 +71,14 @@
             content: '';
             position: fixed; inset: 0; z-index: 0; pointer-events: none;
             opacity: 0.015;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
             background-size: 128px 128px;
         }
 
         /* ─── FIXED NAVBAR ENGINE ─────────────────────────────────────────── */
         #navbar {
             position: fixed; top: 0; left: 0; width: 100%; height: 72px; z-index: 9999;
-            background: rgba(4, 4, 6, 0.70);
+            background: rgba(4, 4, 6, 0.75);
             backdrop-filter: blur(40px) saturate(210%) brightness(1.05);
             -webkit-backdrop-filter: blur(40px) saturate(210%) brightness(1.05);
             border-bottom: 1px solid var(--glass-border);
@@ -95,7 +95,7 @@
             display: flex; align-items: center; justify-content: space-between; gap: 20px;
         }
         .nav-left  { display: flex; align-items: center; flex: 1; min-width: 0; }
-        .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
 
         /* Logo Horizon Layout Alignment */
         .nav-logo {
@@ -106,12 +106,12 @@
             width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
             background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
             display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 0.8rem; color: #020204; letter-spacing: 0.02em;
+            font-weight: 800; font-size: 0.85rem; color: #020204; letter-spacing: 0.02em;
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.35);
         }
         .logo-text {
             font-weight: 700; font-size: 1.35rem; color: var(--text-1); letter-spacing: -0.03em;
-            white-space: nowrap; line-height: 1; display: inline-block;
+            white-space: nowrap; line-height: 1; display: inline-flex; align-items: center;
         }
         .logo-text span { 
             background: linear-gradient(90deg, #00d4ff, #8b5cf6);
@@ -181,10 +181,10 @@
         /* ─── LIQUID GLASS PROFILE PILL ARROW CORE TRIGGER ───────────────── */
         .profile-pill {
             display: flex; align-items: center; gap: 8px;
-            padding: 4px 6px; border-radius: var(--r-pill);
+            padding: 4px 10px; border-radius: var(--r-pill);
             background: var(--glass-sm); border: 1px solid var(--glass-border);
             position: relative; transition: all 150ms var(--ease-out);
-            user-select: none;
+            user-select: none; cursor: default;
         }
         .profile-pill:hover { background: var(--glass-md); border-color: var(--glass-border-md); }
         .profile-pill.open { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
@@ -193,7 +193,7 @@
             width: 28px; height: 28px; border-radius: 50%;
             background: linear-gradient(135deg, #00d4ff, #8b5cf6);
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; font-weight: 700; color: #020204; flex-shrink: 0;
+            font-size: 0.72rem; font-weight: 700; color: #020204; flex-shrink: 0;
         }
         .p-name {
             font-size: 0.85rem; font-weight: 600; color: var(--text-1);
@@ -201,31 +201,21 @@
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
         
-        /* Dedicated Micro-Interaction Dropdown Trigger Target Area */
-        .p-chevron-trigger {
-            display: flex; align-items: center; justify-content: center;
-            width: 24px; height: 24px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer; transition: all 150ms var(--ease-out); flex-shrink: 0;
-        }
-        .p-chevron-trigger:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.25);
-            color: var(--cyan);
-        }
+        /* Interactive Vector Arrow (p-chevron styling) */
         .p-chevron {
-            width: 12px; height: 12px; color: var(--text-2);
-            transition: transform 220ms var(--ease-spring);
-            stroke: currentColor; fill: none; stroke-width: 3;
+            width: 14px; height: 14px; color: var(--text-2);
+            transition: transform 240ms var(--ease-spring), color 120ms var(--ease-out);
+            stroke: currentColor; fill: none; stroke-width: 2.5;
             stroke-linecap: round; stroke-linejoin: round;
+            cursor: pointer; padding: 2px; border-radius: 4px;
         }
+        .p-chevron:hover { color: var(--cyan); background: rgba(255,255,255,0.08); }
         .profile-pill.open .p-chevron { transform: rotate(180deg); color: var(--cyan); }
 
         /* ─── DROPDOWN MATRIX OVERLAY ────────────────────────────────────── */
         #profile-dropdown {
             position: absolute; top: calc(100% + 12px); right: 0; width: 265px;
-            background: rgba(6, 6, 9, 0.92);
+            background: rgba(6, 6, 9, 0.94);
             backdrop-filter: blur(50px) saturate(170%) brightness(1.02);
             -webkit-backdrop-filter: blur(50px) saturate(170%) brightness(1.02);
             border: 1px solid var(--glass-border-md); border-radius: var(--r-xl);
@@ -243,37 +233,22 @@
             to   { opacity: 1; transform: scale(1) translateY(0); }
         }
         
-        .dd-header {
-            padding: 12px 14px 12px;
-            border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 8px;
-        }
+        .dd-header { padding: 12px 14px; border-bottom: 1px solid var(--glass-border); margin-bottom: 8px; }
         .dd-name  { font-size: 0.9rem; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; }
         .dd-email { font-size: 0.75rem; color: var(--text-3); margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .dd-badge {
-            display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
-            padding: 3px 10px; border-radius: var(--r-pill);
-            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
-        }
+        .dd-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 3px 10px; border-radius: var(--r-pill); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; }
         .dd-badge-cyan   { background: var(--cyan-dim);   color: var(--cyan);   border: 1px solid rgba(0,212,255,0.18);   }
         .dd-badge-violet { background: var(--violet-dim); color: var(--violet); border: 1px solid rgba(139,92,246,0.18); }
         
         .dd-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 14px; border-radius: var(--r-md);
-            color: var(--text-2); font-size: 0.85rem; font-weight: 500;
-            text-decoration: none; cursor: pointer; letter-spacing: -0.01em;
-            transition: all 120ms var(--ease-out);
-            border: none; background: none; width: 100%;
-            font-family: inherit; text-align: left;
+            display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--r-md);
+            color: var(--text-2); font-size: 0.85rem; font-weight: 500; text-decoration: none; cursor: pointer;
+            transition: all 120ms var(--ease-out); border: none; background: none; width: 100%; font-family: inherit; text-align: left;
         }
         .dd-item:hover { background: var(--glass-md); color: var(--text-1); transform: translateX(2px); }
         .dd-item.danger:hover { background: rgba(248,113,113,0.12); color: var(--red); }
         
-        .dd-icon {
-            width: 28px; height: 28px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
+        .dd-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .dd-icon svg { width: 14px; height: 14px; }
         .dd-icon-cyan   { background: var(--cyan-dim);   color: var(--cyan);   }
         .dd-icon-violet { background: var(--violet-dim); color: var(--violet); }
@@ -282,46 +257,32 @@
         .dd-icon-red    { background: rgba(248,113,113,0.08); color: var(--red);    }
         .dd-divider { height: 1px; background: var(--glass-border); margin: 6px 0; }
 
-        /* ─── APP ROOT STRUCTURE ──────────────────────────────────────────── */
+        /* ─── APP ROOT CONTAINER STRUCTURAL FIX ───────────────────────────── */
         #app-root {
             padding-top: 108px; padding-bottom: 80px;
             max-width: 1340px; margin: 0 auto; width: 100%;
             padding-left: 24px; padding-right: 24px;
-            flex: 1; position: relative; z-index: 1;
+            flex: 1; position: relative; z-index: 5;
         }
 
         /* ─── LAYOUT VISUAL PANELS ────────────────────────────────────────── */
         .glass-card {
-            background: var(--glass-sm);
-            backdrop-filter: blur(24px) saturate(140%);
-            -webkit-backdrop-filter: blur(24px) saturate(140%);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--r-xl);
+            background: var(--glass-sm); backdrop-filter: blur(24px) saturate(140%); -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid var(--glass-border); border-radius: var(--r-xl);
             transition: border-color 200ms var(--ease-out), background-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
         }
         .glass-card:hover { border-color: var(--glass-border-md); background: var(--glass-md); }
 
         #modal-overlay {
-            position: fixed; inset: 0; z-index: 99998;
-            background: rgba(1, 1, 3, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            position: fixed; inset: 0; z-index: 99998; background: rgba(1, 1, 3, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             display: flex; align-items: center; justify-content: center;
         }
 
-        #toast-container {
-            position: fixed; bottom: 30px; right: 30px; z-index: 999999;
-            display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-        }
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
         .toast-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 14px 20px; border-radius: var(--r-lg);
-            background: rgba(4, 4, 6, 0.95);
-            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
-            border: 1px solid var(--glass-border-md);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
-            font-size: 0.88rem; font-weight: 500; color: var(--text-1);
-            min-width: 300px; pointer-events: all;
+            display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: var(--r-lg); background: rgba(4, 4, 6, 0.95);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); border: 1px solid var(--glass-border-md);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8); font-size: 0.88rem; font-weight: 500; color: var(--text-1); min-width: 300px; pointer-events: all;
             animation: toast-unfurl-in 0.28s var(--ease-spring) both;
         }
         .toast-exit { animation: toast-unfurl-out 0.2s var(--ease-out) both; }
@@ -332,61 +293,17 @@
         .btn-primary {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
-            color: #020204; font-weight: 700; border: none; cursor: pointer;
-            font-family: inherit; letter-spacing: -0.01em; padding: 12px 24px; border-radius: var(--r-md);
+            color: #020204; font-weight: 700; border: none; cursor: pointer; font-family: inherit; letter-spacing: -0.01em; padding: 12px 24px; border-radius: var(--r-md);
             transition: all 150ms var(--ease-out); box-shadow: 0 4px 15px rgba(0, 212, 255, 0.15);
         }
         .btn-primary:hover { transform: translateY(-1.5px); box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); }
-        .btn-primary:active { transform: translateY(0); }
         
-        .btn-secondary {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            background: var(--glass-sm); border: 1px solid var(--glass-border);
-            color: var(--text-1); font-weight: 500; cursor: pointer;
-            font-family: inherit; letter-spacing: -0.01em; padding: 12px 24px; border-radius: var(--r-md);
-            transition: all 120ms var(--ease-out);
-        }
-        .btn-secondary:hover { background: var(--glass-md); border-color: var(--glass-border-md); }
-
-        /* ─── HIGH FIDELITY FORM FIELDS ──────────────────────────────────── */
-        .form-group  { display: flex; flex-direction: column; gap: 8px; }
-        .form-label  { font-size: 0.75rem; font-weight: 700; color: var(--text-2); letter-spacing: 0.05em; text-transform: uppercase; }
-        .form-input  {
-            width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);
-            border-radius: var(--r-md); padding: 14px 18px;
-            color: var(--text-1); font-family: inherit; font-size: 0.92rem; font-weight: 500;
-            outline: none; transition: all 150ms var(--ease-out);
-        }
-        .form-input::placeholder { color: var(--text-3); }
-        .form-input:focus { border-color: rgba(0, 212, 255, 0.45); background: var(--glass-sm); box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.08); }
-
         /* ─── GRID DECORATIONS ────────────────────────────────────────────── */
         .hero-grid {
-            position: absolute; inset: 0; pointer-events: none; z-index: 0;
-            background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 48px 48px;
-            mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 80%);
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 56px 56px; mask-image: radial-gradient(circle at 50% 20%, black 40%, transparent 80%); -webkit-mask-image: radial-gradient(circle at 50% 20%, black 40%, transparent 80%);
         }
-
-        /* Professional Showrooms Elements */
-        .project-card {
-            background: var(--glass-sm); border: 1px solid var(--glass-border);
-            border-radius: var(--r-xl); padding: 24px; cursor: pointer;
-            display: flex; flex-direction: column; height: 100%;
-            transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        }
-        .project-card:hover { border-color: rgba(0, 212, 255, 0.35); background: var(--glass-md); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-
-        .badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: var(--r-pill); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em; }
-        .badge-cyan   { background: var(--cyan-dim);               color: var(--cyan);   border: 1px solid rgba(0, 212, 255, 0.16); }
-        .badge-violet { background: var(--violet-dim);             color: var(--violet); border: 1px solid rgba(139, 92, 246, 0.16); }
-        .badge-green  { background: rgba(52, 211, 153, 0.08);       color: var(--green);  border: 1px solid rgba(52, 211, 153, 0.15); }
-        .badge-amber  { background: rgba(251, 191, 36, 0.08);       color: var(--amber);  border: 1px solid rgba(251, 191, 36, 0.15); }
-        .badge-red    { background: rgba(248, 113, 113, 0.08);      color: var(--red);    border: 1px solid rgba(248, 113, 113, 0.15); }
 
         /* Scrollbar Systems */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -395,64 +312,39 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.22); }
 
         footer {
-            position: relative; z-index: 2; margin-top: auto;
-            border-top: 1px solid var(--glass-border);
-            padding: 32px 24px; color: var(--text-3); font-size: 0.85rem;
-            background: rgba(2,2,4,0.6); backdrop-filter: blur(20px);
+            position: relative; z-index: 10; margin-top: auto; border-top: 1px solid var(--glass-border); padding: 32px 24px; color: var(--text-3); font-size: 0.85rem;
+            background: rgba(2,2,4,0.8); backdrop-filter: blur(20px);
         }
         footer a { color: var(--text-3); text-decoration: none; transition: color 150ms; }
         footer a:hover { color: var(--text-2); }
 
-        @media (max-width: 968px) {
-            .nav-dock { display: none; }
-        }
+        @media (max-width: 968px) { .nav-dock { display: none; } }
         @media (max-width: 540px) {
             .p-name { display: none; }
             #toast-container { left: 20px; right: 20px; bottom: 20px; }
-            .toast-item { min-width: unset; }
             #navbar { height: 66px; }
             #app-root { padding-top: 90px; padding-left: 16px; padding-right: 16px; }
         }
-
-        #mobile-menu { background: rgba(4, 4, 6, 0.98); border-top: 1px solid var(--glass-border); backdrop-filter: blur(30px); }
-        .mobile-nav-link { display: flex; align-items: center; gap: 14px; padding: 14px 18px; color: var(--text-2); font-size: 0.92rem; font-weight: 500; text-decoration: none; border-radius: var(--r-md); transition: all 120ms; }
-        .mobile-nav-link:hover { background: var(--glass-sm); color: var(--text-1); }
     </style>
 </head>
 <body>
 
-    <!-- ====================================================================
-         DYNAMIC FIXED NAVBAR HUB
-         ==================================================================== -->
     <nav id="navbar">
         <div class="nav-container" id="navbar-inner">
-            <!-- Rendered Reactively via UI.renderNav() inside ui.js -->
-        </div>
+            </div>
     </nav>
 
-    <!-- ====================================================================
-         GLOBAL MODAL SYSTEM CONTAINER
-         ==================================================================== -->
     <div id="modal-overlay" class="hidden fixed inset-0 z-[99998]" style="display:none;">
         <div id="modal-body" class="w-full max-w-2xl mx-auto flex items-center justify-center"></div>
     </div>
 
-    <!-- ====================================================================
-         MAIN VIEWPORT APPLICATION ROOT
-         ==================================================================== -->
-    <div class="relative w-full overflow-hidden min-height-screen flex flex-col">
+    <div class="relative w-full min-h-screen flex flex-col justify-start">
         <div class="hero-grid"></div>
         <main id="app-root"></main>
     </div>
 
-    <!-- ====================================================================
-         MICRO-INTERACTION TOAST ENGINE
-         ==================================================================== -->
     <div id="toast-container"></div>
 
-    <!-- ====================================================================
-         PREMIUM BUSINESS FOOTER SYSTEM
-         ==================================================================== -->
     <footer>
         <div style="max-width:1340px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
             <div style="display:flex; align-items:center; gap:12px;">
@@ -468,9 +360,6 @@
         </div>
     </footer>
 
-    <!-- ====================================================================
-         PROPRIETARY ENGINES & COMPONENT DRIVERS (DO NOT MUTATE ORDER)
-         ==================================================================== -->
     <script src="store.js"></script>
     <script src="ui.js"></script>
     <script src="home.js"></script>
@@ -487,63 +376,5 @@
     <script src="settings.js"></script>
     <script src="app.js"></script>
 
-    <!-- ====================================================================
-         INTERACTION EVENTS & DOM ROUTING LIFECYCLE
-         ==================================================================== -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-
-        /* 1. INITIALIZE SYSTEM STATE */
-        if (typeof App !== 'undefined') App.init();
-
-        /* 2. LIQUID GLASS INTERACTIVE DROPDOWN ENGINE */
-        document.addEventListener('click', (e) => {
-            const pillBtn = document.getElementById('profile-pill-btn');
-            const dropdown = document.getElementById('profile-dropdown');
-            const chevronTrigger = e.target.closest('.p-chevron-trigger');
-            
-            if (!pillBtn || !dropdown) return;
-
-            // Explicitly verify the strict requirement: open only when the dedicated chevron trigger button is pressed
-            if (chevronTrigger && pillBtn.contains(chevronTrigger)) {
-                e.stopPropagation();
-                const isOpen = dropdown.classList.toggle('active');
-                pillBtn.classList.toggle('open', isOpen);
-                pillBtn.setAttribute('aria-expanded', String(isOpen));
-            } else if (!dropdown.contains(e.target)) {
-                // Clicking completely outside or on the main body of the pill closes the dropdown panel safely
-                dropdown.classList.remove('active');
-                pillBtn.classList.remove('open');
-                pillBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        /* 3. HARDWARE ACCELERATED KEYBOARD ACCESSIBILITY CLOSURES */
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.getElementById('profile-dropdown')?.classList.remove('active');
-                document.getElementById('profile-pill-btn')?.classList.remove('open');
-            }
-        });
-
-        /* 4. SEAMLESS DOCK HIGH LIGHT STATE RE-SYNCHRONIZATION */
-        function syncActive() {
-            const currentHash = window.location.hash || '#/';
-            document.querySelectorAll('.nav-dock-link').forEach(link => {
-                link.classList.toggle('active', link.getAttribute('href') === currentHash);
-            });
-        }
-        window.addEventListener('hashchange', syncActive);
-        syncActive();
-
-        /* 5. HEURISTIC ENGINE FOR POLL CONTEXT FOR DYNAMIC RENDER LUCIDE ICONS */
-        setInterval(() => { 
-            if (window.lucide && typeof lucide.createIcons === 'function') {
-                lucide.createIcons(); 
-            } 
-        }, 700);
-
-    });
-    </script>
-</body>
-</html>
