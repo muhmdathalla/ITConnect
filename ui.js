@@ -72,7 +72,6 @@ const UI = {
     const id = 'toast_' + Date.now();
     const div = document.createElement('div');
     div.id = id;
-    // Styling Toast Monokrom
     div.className = `toast-item flex items-center gap-3 px-4 py-3 rounded-xl border backdrop-blur-xl bg-black/90 border-white/20 text-white shadow-xl max-w-sm`;
     div.innerHTML = `<i data-lucide="${icons[type]}" class="w-5 h-5 flex-shrink-0"></i><span class="text-sm font-medium">${message}</span><button onclick="document.getElementById('${id}')?.remove()" class="ml-auto opacity-60 hover:opacity-100"><i data-lucide="x" class="w-4 h-4"></i></button>`;
     container.appendChild(div);
@@ -127,7 +126,7 @@ const UI = {
     if (el) el.style.display = bool ? 'flex' : 'none';
   },
 
-  // ── NAVIGATION ───────────────────────────────────────────────
+  // ── NAVIGATION (DOCK SYSTEM iOS 26) ──────────────────────────
   renderNav() {
     const nav = document.getElementById('navbar');
     if (!nav) return;
@@ -142,11 +141,19 @@ const UI = {
             <span class="logo-icon"><i data-lucide="zap" class="w-5 h-5"></i></span>
             <span>ITConnect</span>
           </a>
-          <div class="hidden md:flex items-center gap-6">
-            <a href="#/" class="nav-link">Beranda</a>
-            <a href="#/browse" class="nav-link">Cari Proyek</a>
-            <a href="#/about" class="nav-link">Tentang</a>
+          
+          <div class="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-1.5 rounded-full backdrop-blur-md shadow-inner">
+            <a href="#/" title="Beranda" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="home" class="w-4 h-4"></i>
+            </a>
+            <a href="#/browse" title="Cari Proyek" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="compass" class="w-4 h-4"></i>
+            </a>
+            <a href="#/about" title="Tentang ITConnect" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </a>
           </div>
+
           <div class="flex items-center gap-3">
             <a href="#/login" class="nav-link hidden sm:block">Masuk</a>
             <a href="#/register" class="btn-primary px-4 py-2 rounded-xl text-sm">Daftar Gratis</a>
@@ -155,10 +162,11 @@ const UI = {
             </button>
           </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-2">
-          <a href="#/" class="nav-link py-2">Beranda</a>
-          <a href="#/browse" class="nav-link py-2">Cari Proyek</a>
-          <a href="#/login" class="nav-link py-2">Masuk</a>
+        
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-2 border-t border-white/10 pt-3">
+          <a href="#/" class="nav-link py-2 flex items-center gap-3"><i data-lucide="home" class="w-4 h-4"></i> Beranda</a>
+          <a href="#/browse" class="nav-link py-2 flex items-center gap-3"><i data-lucide="compass" class="w-4 h-4"></i> Cari Proyek</a>
+          <a href="#/login" class="nav-link py-2 flex items-center gap-3"><i data-lucide="log-in" class="w-4 h-4"></i> Masuk</a>
         </div>`;
     } else {
       nav.innerHTML = `
@@ -167,57 +175,71 @@ const UI = {
             <span class="logo-icon"><i data-lucide="zap" class="w-5 h-5"></i></span>
             <span>ITConnect</span>
           </a>
-          <div class="hidden md:flex items-center gap-1">
-            <a href="#/dashboard" class="nav-link">Dashboard</a>
-            <a href="#/browse" class="nav-link">Proyek</a>
-            ${user.role === 'klien' ? '<a href="#/post-project" class="nav-link">Post Proyek</a>' : ''}
-            <a href="#/messages" class="nav-link relative">Pesan${msgCount > 0 ? `<span class="notif-badge">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}</a>
-            <a href="#/settings" class="nav-link">Pengaturan</a>
-          </div>
-          <div class="flex items-center gap-2">
-            <a href="#/notifications" class="p-2 rounded-xl hover:bg-white/10 transition-all relative text-white">
-              <i data-lucide="bell" class="w-5 h-5"></i>
-              ${notifCount > 0 ? `<span class="notif-badge">${notifCount > 9 ? '9+' : notifCount}</span>` : ''}
+          
+          <div class="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-1.5 rounded-full backdrop-blur-md shadow-inner">
+            <a href="#/dashboard" title="Dashboard" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
             </a>
-            <div class="relative group">
-              <button class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-white/10 transition-all text-white">
+            <a href="#/browse" title="Proyek" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="briefcase" class="w-4 h-4"></i>
+            </a>
+            ${user.role === 'klien' ? `
+            <a href="#/post-project" title="Post Proyek Baru" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </a>` : ''}
+            <a href="#/messages" title="Pesan" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all relative">
+              <i data-lucide="message-square" class="w-4 h-4"></i>
+              ${msgCount > 0 ? `<span class="absolute top-0 right-0 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-white text-black text-[9px] font-bold ring-2 ring-black">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}
+            </a>
+            <a href="#/settings" title="Pengaturan" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <a href="#/notifications" class="p-2.5 rounded-full hover:bg-white/15 transition-all relative text-slate-300 hover:text-white">
+              <i data-lucide="bell" class="w-5 h-5"></i>
+              ${notifCount > 0 ? `<span class="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-white text-black text-[10px] font-bold ring-2 ring-black">${notifCount > 9 ? '9+' : notifCount}</span>` : ''}
+            </a>
+            
+            <div class="relative group ml-1">
+              <button class="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
                 ${UI.avatar(user, 'sm')}
-                <span class="hidden sm:block text-sm font-medium max-w-[100px] truncate">${user.name.split(' ')[0]}</span>
-                <i data-lucide="chevron-down" class="w-4 h-4 opacity-60 hidden sm:block"></i>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-60 hidden sm:block mr-1 text-white"></i>
               </button>
-              <div class="dropdown-menu hidden group-hover:block">
-                <div class="px-3 py-2 mb-1 border-b border-white/10">
+              
+              <div class="dropdown-menu hidden group-hover:block absolute right-0 top-full mt-2 w-56">
+                <div class="px-4 py-3 mb-1 border-b border-white/10">
                   <div class="text-sm font-bold text-white truncate">${user.name}</div>
                   <div class="text-xs text-slate-400 truncate mt-0.5">${user.email}</div>
                 </div>
                 <a href="#/profile" class="dropdown-item"><i data-lucide="user" class="w-4 h-4"></i> Profil Saya</a>
-                <a href="#/payment" class="dropdown-item"><i data-lucide="wallet" class="w-4 h-4"></i> Pembayaran</a>
+                <a href="#/payment" class="dropdown-item"><i data-lucide="wallet" class="w-4 h-4"></i> Dompet Keuangan</a>
                 <div class="border-t border-white/10 mt-1 pt-1">
-                  <button onclick="App.logout()" class="dropdown-item text-white hover:text-white w-full text-left"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
+                  <button onclick="App.logout()" class="dropdown-item hover:bg-white/10 text-white w-full text-left"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
                 </div>
               </div>
             </div>
-            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10 text-white">
+            
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10 text-white ml-2">
               <i data-lucide="menu" class="w-5 h-5"></i>
             </button>
           </div>
         </div>
+        
         <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-1 border-t border-white/10 mt-2 pt-3">
-          <a href="#/dashboard" class="nav-link py-2">Dashboard</a>
-          <a href="#/browse" class="nav-link py-2">Proyek</a>
-          ${user.role === 'klien' ? '<a href="#/post-project" class="nav-link py-2">Post Proyek</a>' : ''}
-          <a href="#/messages" class="nav-link py-2">Pesan</a>
-          <a href="#/notifications" class="nav-link py-2">Notifikasi</a>
-          <a href="#/settings" class="nav-link py-2">Pengaturan</a>
-          <a href="#/profile" class="nav-link py-2">Profil</a>
-          <a href="#/payment" class="nav-link py-2">Pembayaran</a>
-          <button onclick="App.logout()" class="nav-link py-2 text-left text-white">Keluar</button>
+          <a href="#/dashboard" class="nav-link py-2 flex items-center gap-3"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard</a>
+          <a href="#/browse" class="nav-link py-2 flex items-center gap-3"><i data-lucide="briefcase" class="w-4 h-4"></i> Proyek</a>
+          ${user.role === 'klien' ? '<a href="#/post-project" class="nav-link py-2 flex items-center gap-3"><i data-lucide="plus" class="w-4 h-4"></i> Post Proyek</a>' : ''}
+          <a href="#/messages" class="nav-link py-2 flex items-center gap-3"><i data-lucide="message-square" class="w-4 h-4"></i> Pesan</a>
+          <a href="#/settings" class="nav-link py-2 flex items-center gap-3"><i data-lucide="settings" class="w-4 h-4"></i> Pengaturan</a>
+          <div class="border-t border-white/10 my-2"></div>
+          <button onclick="App.logout()" class="nav-link py-2 text-left text-white flex items-center gap-3"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
         </div>`;
     }
 
     if (window.lucide) lucide.createIcons({ nodes: [nav] });
 
-    // Mobile menu toggle
     document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
       const menu = document.getElementById('mobile-menu');
       menu?.classList.toggle('hidden');
