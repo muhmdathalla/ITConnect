@@ -126,126 +126,182 @@ const UI = {
     if (el) el.style.display = bool ? 'flex' : 'none';
   },
 
-  // ── NAVIGATION (DOCK SYSTEM iOS 26) ──────────────────────────
+  // ── NAVIGATION — LIQUID GLASS iOS 26.5 ────────────────────────
   renderNav() {
-    const nav = document.getElementById('navbar');
-    if (!nav) return;
+    const inner = document.getElementById('navbar-inner');
+    if (!inner) return;
+
     const user = Store.getCurrentUser();
-    const notifCount = user ? Store.getUnreadCount(user.id) : 0;
-    const msgCount = user ? Store.getTotalUnread(user.id) : 0;
+    const notifCount = user ? Store.getUnreadCount(user.id)    : 0;
+    const msgCount   = user ? Store.getTotalUnread(user.id)     : 0;
 
     if (!user) {
-      nav.innerHTML = `
-        <div class="nav-container">
+      /* ── GUEST ── */
+      inner.innerHTML = `
+        <div class="nav-left">
           <a href="#/" class="nav-logo">
-            <span class="logo-icon"><i data-lucide="zap" class="w-5 h-5"></i></span>
-            <span>ITConnect</span>
+            <div class="logo-icon">IT</div>
+            <span class="logo-text">IT<span>Connect</span></span>
           </a>
-          
-          <div class="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-1.5 rounded-full backdrop-blur-md shadow-inner">
-            <a href="#/" title="Beranda" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="home" class="w-4 h-4"></i>
-            </a>
-            <a href="#/browse" title="Cari Proyek" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="compass" class="w-4 h-4"></i>
-            </a>
-            <a href="#/about" title="Tentang ITConnect" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="info" class="w-4 h-4"></i>
-            </a>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <a href="#/login" class="nav-link hidden sm:block">Masuk</a>
-            <a href="#/register" class="btn-primary px-4 py-2 rounded-xl text-sm">Daftar Gratis</a>
-            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10 text-white">
-              <i data-lucide="menu" class="w-5 h-5"></i>
-            </button>
-          </div>
+          <nav class="nav-dock hidden md:flex">
+            <a href="#/"       class="nav-dock-link"><i data-lucide="home"    style="width:13px;height:13px;"></i> Beranda</a>
+            <a href="#/browse" class="nav-dock-link"><i data-lucide="compass" style="width:13px;height:13px;"></i> Proyek</a>
+            <a href="#/about"  class="nav-dock-link"><i data-lucide="info"    style="width:13px;height:13px;"></i> Tentang</a>
+          </nav>
         </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-2 border-t border-white/10 pt-3">
-          <a href="#/" class="nav-link py-2 flex items-center gap-3"><i data-lucide="home" class="w-4 h-4"></i> Beranda</a>
-          <a href="#/browse" class="nav-link py-2 flex items-center gap-3"><i data-lucide="compass" class="w-4 h-4"></i> Cari Proyek</a>
-          <a href="#/login" class="nav-link py-2 flex items-center gap-3"><i data-lucide="log-in" class="w-4 h-4"></i> Masuk</a>
-        </div>`;
+        <div class="nav-right">
+          <a href="#/login"    class="btn-nav-ghost hidden sm:inline-flex">Masuk</a>
+          <a href="#/register" class="btn-nav-primary">Daftar Gratis</a>
+          <button id="mobile-menu-btn" class="icon-btn md:hidden">
+            <i data-lucide="menu" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+      `;
     } else {
-      nav.innerHTML = `
-        <div class="nav-container">
+      /* ── LOGGED IN ── */
+      const initials = (user.name || 'U').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+      const roleLabel = user.role === 'mahasiswa' ? '🎓 Mahasiswa' : '💼 Klien';
+      const roleCls   = user.role === 'mahasiswa' ? 'dd-badge-cyan' : 'dd-badge-violet';
+      const postLink  = user.role === 'klien'
+        ? `<a href="#/post-project" class="nav-dock-link"><i data-lucide="plus-circle" style="width:13px;height:13px;"></i> Post Proyek</a>` : '';
+
+      inner.innerHTML = `
+        <div class="nav-left">
           <a href="#/dashboard" class="nav-logo">
-            <span class="logo-icon"><i data-lucide="zap" class="w-5 h-5"></i></span>
-            <span>ITConnect</span>
+            <div class="logo-icon">IT</div>
+            <span class="logo-text">IT<span>Connect</span></span>
           </a>
-          
-          <div class="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-1.5 rounded-full backdrop-blur-md shadow-inner">
-            <a href="#/dashboard" title="Dashboard" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          <nav class="nav-dock hidden md:flex">
+            <a href="#/dashboard" class="nav-dock-link"><i data-lucide="layout-dashboard" style="width:13px;height:13px;"></i> Dashboard</a>
+            <a href="#/browse"    class="nav-dock-link"><i data-lucide="briefcase"         style="width:13px;height:13px;"></i> Proyek</a>
+            ${postLink}
+            <a href="#/messages"  class="nav-dock-link" style="position:relative;">
+              <i data-lucide="message-square" style="width:13px;height:13px;"></i> Pesan
+              ${msgCount > 0 ? `<span class="notif-badge" style="top:-6px;right:-6px;">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}
             </a>
-            <a href="#/browse" title="Proyek" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="briefcase" class="w-4 h-4"></i>
-            </a>
-            ${user.role === 'klien' ? `
-            <a href="#/post-project" title="Post Proyek Baru" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </a>` : ''}
-            <a href="#/messages" title="Pesan" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all relative">
-              <i data-lucide="message-square" class="w-4 h-4"></i>
-              ${msgCount > 0 ? `<span class="absolute top-0 right-0 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-white text-black text-[9px] font-bold ring-2 ring-black">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}
-            </a>
-            <a href="#/settings" title="Pengaturan" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-all">
-              <i data-lucide="settings" class="w-4 h-4"></i>
-            </a>
+          </nav>
+        </div>
+        <div class="nav-right">
+          <!-- Bell -->
+          <a href="#/notifications" class="icon-btn" title="Notifikasi" style="text-decoration:none;">
+            <i data-lucide="bell" style="width:16px;height:16px;"></i>
+            ${notifCount > 0 ? `<span class="notif-badge">${notifCount > 9 ? '9+' : notifCount}</span>` : ''}
+          </a>
+
+          <!-- Profile Pill -->
+          <div style="position:relative;">
+            <div class="profile-pill" id="profile-pill-btn" role="button" aria-expanded="false" aria-haspopup="true">
+              <div class="p-avatar">${initials}</div>
+              <span class="p-name">${user.name?.split(' ')[0] || 'Pengguna'}</span>
+              <svg class="p-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+
+            <!-- Dropdown -->
+            <div id="profile-dropdown">
+              <div class="dd-header">
+                <div class="dd-name">${user.name || 'Pengguna'}</div>
+                <div class="dd-email">${user.email || ''}</div>
+                <span class="dd-badge ${roleCls}">${roleLabel}</span>
+              </div>
+
+              <a href="#/profile" class="dd-item">
+                <div class="dd-icon dd-icon-cyan"><i data-lucide="user" style="width:13px;height:13px;"></i></div>
+                Profil Saya
+              </a>
+              <a href="#/dashboard" class="dd-item">
+                <div class="dd-icon dd-icon-violet"><i data-lucide="layout-dashboard" style="width:13px;height:13px;"></i></div>
+                Dashboard
+              </a>
+              <a href="#/payment" class="dd-item">
+                <div class="dd-icon dd-icon-cyan"><i data-lucide="wallet" style="width:13px;height:13px;"></i></div>
+                Dompet Keuangan
+              </a>
+              <a href="#/messages" class="dd-item">
+                <div class="dd-icon dd-icon-violet" style="position:relative;">
+                  <i data-lucide="message-square" style="width:13px;height:13px;"></i>
+                </div>
+                Pesan
+                ${msgCount > 0 ? `<span class="badge badge-cyan" style="margin-left:auto;font-size:0.68rem;">${msgCount}</span>` : ''}
+              </a>
+              <a href="#/notifications" class="dd-item">
+                <div class="dd-icon dd-icon-amber"><i data-lucide="bell" style="width:13px;height:13px;"></i></div>
+                Notifikasi
+                ${notifCount > 0 ? `<span class="badge badge-red" style="margin-left:auto;font-size:0.68rem;">${notifCount}</span>` : ''}
+              </a>
+              <a href="#/settings" class="dd-item">
+                <div class="dd-icon dd-icon-gray"><i data-lucide="settings" style="width:13px;height:13px;"></i></div>
+                Pengaturan
+              </a>
+
+              <div class="dd-divider"></div>
+
+              <button class="dd-item danger" onclick="App.logout()">
+                <div class="dd-icon dd-icon-red"><i data-lucide="log-out" style="width:13px;height:13px;"></i></div>
+                Keluar
+              </button>
+            </div>
           </div>
 
-          <div class="flex items-center gap-2">
-            <a href="#/notifications" class="p-2.5 rounded-full hover:bg-white/15 transition-all relative text-slate-300 hover:text-white">
-              <i data-lucide="bell" class="w-5 h-5"></i>
-              ${notifCount > 0 ? `<span class="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-white text-black text-[10px] font-bold ring-2 ring-black">${notifCount > 9 ? '9+' : notifCount}</span>` : ''}
-            </a>
-            
-            <div class="relative group ml-1">
-              <button class="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-all border border-transparent hover:border-white/10">
-                ${UI.avatar(user, 'sm')}
-                <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-60 hidden sm:block mr-1 text-white"></i>
-              </button>
-              
-              <div class="dropdown-menu hidden group-hover:block absolute right-0 top-full mt-2 w-56">
-                <div class="px-4 py-3 mb-1 border-b border-white/10">
-                  <div class="text-sm font-bold text-white truncate">${user.name}</div>
-                  <div class="text-xs text-slate-400 truncate mt-0.5">${user.email}</div>
-                </div>
-                <a href="#/profile" class="dropdown-item"><i data-lucide="user" class="w-4 h-4"></i> Profil Saya</a>
-                <a href="#/payment" class="dropdown-item"><i data-lucide="wallet" class="w-4 h-4"></i> Dompet Keuangan</a>
-                <div class="border-t border-white/10 mt-1 pt-1">
-                  <button onclick="App.logout()" class="dropdown-item hover:bg-white/10 text-white w-full text-left"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
-                </div>
-              </div>
-            </div>
-            
-            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10 text-white ml-2">
-              <i data-lucide="menu" class="w-5 h-5"></i>
-            </button>
-          </div>
+          <!-- Mobile hamburger -->
+          <button id="mobile-menu-btn" class="icon-btn md:hidden">
+            <i data-lucide="menu" style="width:16px;height:16px;"></i>
+          </button>
         </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-1 border-t border-white/10 mt-2 pt-3">
-          <a href="#/dashboard" class="nav-link py-2 flex items-center gap-3"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard</a>
-          <a href="#/browse" class="nav-link py-2 flex items-center gap-3"><i data-lucide="briefcase" class="w-4 h-4"></i> Proyek</a>
-          ${user.role === 'klien' ? '<a href="#/post-project" class="nav-link py-2 flex items-center gap-3"><i data-lucide="plus" class="w-4 h-4"></i> Post Proyek</a>' : ''}
-          <a href="#/messages" class="nav-link py-2 flex items-center gap-3"><i data-lucide="message-square" class="w-4 h-4"></i> Pesan</a>
-          <a href="#/settings" class="nav-link py-2 flex items-center gap-3"><i data-lucide="settings" class="w-4 h-4"></i> Pengaturan</a>
-          <div class="border-t border-white/10 my-2"></div>
-          <button onclick="App.logout()" class="nav-link py-2 text-left text-white flex items-center gap-3"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
-        </div>`;
+      `;
     }
 
-    if (window.lucide) lucide.createIcons({ nodes: [nav] });
+    /* Mobile menu (appended below navbar) */
+    let mobileMenu = document.getElementById('mobile-menu');
+    if (!mobileMenu) {
+      mobileMenu = document.createElement('div');
+      mobileMenu.id = 'mobile-menu';
+      mobileMenu.className = 'hidden md:hidden';
+      mobileMenu.style.cssText = 'position:fixed;top:66px;left:0;width:100%;z-index:9998;padding:12px 16px 20px;';
+      document.body.appendChild(mobileMenu);
+    }
 
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
-      const menu = document.getElementById('mobile-menu');
-      menu?.classList.toggle('hidden');
+    const user2 = Store.getCurrentUser();
+    if (user2) {
+      mobileMenu.innerHTML = `
+        <a href="#/dashboard"  class="mobile-nav-link"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i> Dashboard</a>
+        <a href="#/browse"     class="mobile-nav-link"><i data-lucide="briefcase"         style="width:16px;height:16px;"></i> Proyek</a>
+        ${user2.role === 'klien' ? '<a href="#/post-project" class="mobile-nav-link"><i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Post Proyek</a>' : ''}
+        <a href="#/messages"   class="mobile-nav-link"><i data-lucide="message-square"    style="width:16px;height:16px;"></i> Pesan</a>
+        <a href="#/settings"   class="mobile-nav-link"><i data-lucide="settings"          style="width:16px;height:16px;"></i> Pengaturan</a>
+        <div style="height:1px;background:var(--glass-border);margin:8px 0;"></div>
+        <button onclick="App.logout()" class="mobile-nav-link" style="background:none;border:none;width:100%;text-align:left;cursor:pointer;color:var(--red);font-family:inherit;">
+          <i data-lucide="log-out" style="width:16px;height:16px;"></i> Keluar
+        </button>
+      `;
+    } else {
+      mobileMenu.innerHTML = `
+        <a href="#/"       class="mobile-nav-link"><i data-lucide="home"    style="width:16px;height:16px;"></i> Beranda</a>
+        <a href="#/browse" class="mobile-nav-link"><i data-lucide="compass" style="width:16px;height:16px;"></i> Proyek</a>
+        <a href="#/about"  class="mobile-nav-link"><i data-lucide="info"    style="width:16px;height:16px;"></i> Tentang</a>
+        <div style="height:1px;background:var(--glass-border);margin:8px 0;"></div>
+        <a href="#/login"    class="mobile-nav-link"><i data-lucide="log-in"  style="width:16px;height:16px;"></i> Masuk</a>
+        <a href="#/register" class="mobile-nav-link" style="color:var(--cyan);"><i data-lucide="user-plus" style="width:16px;height:16px;"></i> Daftar Gratis</a>
+      `;
+    }
+
+    /* Active dock link highlight */
+    const hash = window.location.hash || '#/';
+    inner.querySelectorAll('.nav-dock-link').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === hash);
     });
-  },
 
+    if (window.lucide) lucide.createIcons({ nodes: [inner, mobileMenu] });
+
+    /* Mobile menu toggle */
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    /* Close mobile menu on link click */
+    mobileMenu.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+  }
   // ── EMPTY STATE ──────────────────────────────────────────────
   emptyState(icon, title, desc, actionHtml = '') {
     return `
