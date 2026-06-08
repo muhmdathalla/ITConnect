@@ -92,21 +92,20 @@
         }
         .nav-link:hover { color: #ffffff !important; }
 
-        /* =============================================
-           3. FIX FATAL: DROPDOWN MENU (ANTI TEMBUS PANDANG)
+       /* =============================================
+           3. FIX FATAL: DROPDOWN MENU (SOLID BLACK, NO TRANSPARENCY)
            ============================================= */
         .dropdown-menu {
             z-index: 1000000 !important;
             position: absolute !important;
             top: 100% !important;
             right: 0 !important;
-            background: rgba(12, 12, 12, 0.98) !important; /* Nyaris hitam pekat solid */
-            backdrop-filter: blur(30px) !important;
-            -webkit-backdrop-filter: blur(30px) !important;
+            /* DIUBAH KE SOLID BLACK BIAR GAK ADA YANG BISA TEMBUS */
+            background: #050505 !important; 
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
             border-radius: 16px !important;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 1) !important; /* Bayangan hitam pekat */
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 1) !important;
             padding: 0.5rem !important;
             margin-top: 0.75rem !important;
             min-width: 220px !important;
